@@ -1,4 +1,5 @@
 'use client'
+
 import {
   BarChart,
   Bar,
@@ -6,7 +7,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  ResponsiveContainer
 } from "recharts";
 
 const data = [
@@ -53,26 +55,27 @@ function barcharte() {
   return (
     <div>
       <p className='font-semibold '>Participants Age</p>
-
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="Men" stackId="a" fill="#2D57EC" />
-        <Bar dataKey="Women" stackId="a" fill="#FFBFBF" />
-      </BarChart>
+      <ResponsiveContainer width={500} height={300}>
+          <BarChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="Men" stackId="a" fill="#2D57EC" />
+            <Bar dataKey="Women" stackId="a" fill="#FFBFBF" />
+          </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }
