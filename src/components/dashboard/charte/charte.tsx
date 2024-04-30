@@ -50,9 +50,9 @@ const data = [
 
 function charte() {
   return (
-    <div className='h-[27rem] bg-[#F7F9FB] p-4 rounded-2xl'>
+    <div className='h-[25rem] W-[90%] bg-[#F7F9FB] p-4 rounded-2xl'>
       <p className='font-semibold mb-2'>User Statistics</p>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="90%" height="90%">
           <LineChart
             width={500}
             height={300}
