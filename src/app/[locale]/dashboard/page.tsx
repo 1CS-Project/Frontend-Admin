@@ -19,9 +19,9 @@ const page: React.FC<prop> = ({ card1, card2, card3 }) => {
           <Cards title="Candidats" color={card2} total='4,100' pourcentage='20,2' />
           <Cards title="Pilgrims" color={card3} total='5,920' pourcentage='4,2' />
         </div>
-        {/* <Charte /> */}
+        <Charte />
         <div className='flex gap-4 justify-around'>
-          {/* <Pourcentage /> */}
+          <Pourcentage />
           <Barcharte />
         </div>
       </div>
