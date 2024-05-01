@@ -5,16 +5,18 @@ import {NextIntlClientProvider, useMessages} from 'next-intl';
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex">
-      <div className="w-1/3 ">
-      <NextIntlClientProvider>
-        <Sidebar/>
-
-      </NextIntlClientProvider>
+    <div className="flex w-full">
+      <div className="w-16 sm:w-64">
+        <NextIntlClientProvider>
+          <Sidebar/>
+        </NextIntlClientProvider>
       </div>
-      <div className="w-full">
+      <div className="flex-1">
         <Navbar/>
-        {children}
+        <div className="p-5">
+          {children}
+
+        </div>
       </div>
     </div>
   )

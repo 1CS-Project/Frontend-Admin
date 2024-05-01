@@ -77,32 +77,25 @@ function Sidebar() {
           </h2>
 
           <ul className="space-y-4 font-medium mt-6 ">
-            {items?.map((e)=>{
-              console.log(path==="/dashboard"+e.link);
-              console.log("path",path);
-              console.log("link","/dashboard"+e.link);
-              
-              
-              
-              return (<li>
-                <Link
-
-                href={"/"+locale+"/dashboard"+e.link}
-                className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group "+(path==="/dashboard"+e.link?"bg-[#f5f5f5]":"")}
-              >
-                {e.icon}
-                <span className="ms-3">{e.name}</span>
-              </Link>
-              </li>
-)})}
+            {items?.map((e)=>(
+                <li
+                  key={e.name}
+                  >
+                  <Link
+                    href={"/"+locale+"/dashboard"+e.link}
+                    className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group "+(path==="/dashboard"+e.link?"bg-[#f5f5f5]":"")}>
+                      {e.icon}
+                      <span className="ms-3">{e.name}</span>
+                  </Link>
+                </li>
+              ))}
           </ul>
           <div className="mt-8">
             <Link
               href="/"
-              className="flex items-center p-2  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group"
-            >
-              <LogOut/>
-              <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
+              className="flex items-center p-2  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
+                <LogOut/>
+                <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
             </Link>
           </div>
         </div>
