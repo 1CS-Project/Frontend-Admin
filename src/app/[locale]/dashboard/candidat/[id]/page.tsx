@@ -1,7 +1,9 @@
+import ModifyProfil from "./modifyProfil/modifyProfil";
+
 function Page() {
     return ( 
         <h1>
-            Hello
+            <ModifyProfil/>
         </h1>
      );
 }

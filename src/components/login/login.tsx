@@ -42,7 +42,7 @@ function login() {
             </div>
 
             <div className="w-full flex flex-col">
-              <Link href={"/dashboard/dashboard"}>
+              <Link href={"/dashboard"}>
                 <button
                   type="submit"
                   className="text-white font-medium ml-0 bg-gradient-to-r from-buttonleft to-buttonright p-3 shadow-md rounded-xl m-4 w-full border-gradient"

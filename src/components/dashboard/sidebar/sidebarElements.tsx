@@ -102,7 +102,7 @@ export let adminElements:sideBar[]=[
     },
     {
         name:"Contact us",
-        link:"/contact",
+        link:"/contactus",
         icon:<Contact/>
     }
 ]
