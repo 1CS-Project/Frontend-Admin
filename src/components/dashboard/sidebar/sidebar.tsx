@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import LogOut from "@/components/icons/logOut";
 import { adminElements, communeElements, wilayaElements } from "./sidebarElements";
-import {useLocale} from 'next-intl';
+import { useLocale } from 'next-intl';
 import { usePathname } from "next/navigation";
 
 // enum roles{
@@ -17,11 +17,11 @@ function Sidebar() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isOpen, setIsOpen] = useState(false);
-  const locale=useLocale();
-  const pathname=usePathname();
-  const path=pathname.slice(3);
+  const locale = useLocale();
+  const pathname = usePathname();
+  const path = pathname.slice(3);
 
-  let items=adminElements;
+  let items = adminElements;
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -62,7 +62,7 @@ function Sidebar() {
         className={`fixed justify-between top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? "" : "-translate-x-full sm:translate-x-0"
           }`} aria-label="Sidebar"
       >
-        <div className="h-full py-8 bg-gray-50 dark:bg-gray-100 ">
+        <div className="h-full py-4 bg-gray-50 dark:bg-gray-100 ">
           <button
             type="button"
             className=" inline-flex px-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover dark:focus:ring-gray-600"
@@ -76,7 +76,7 @@ function Sidebar() {
             Makkah
           </h2>
 
-          <ul className="space-y-4 font-medium mt-6 ">
+          <ul className="space-y-0 font-medium mt-2 ">
             {items?.map((e)=>(
                 <li
                   key={e.name}
@@ -90,12 +90,13 @@ function Sidebar() {
                 </li>
               ))}
           </ul>
-          <div className="mt-8">
+          <div className="space-y-0 font-medium">
             <Link
               href="/"
-              className="flex items-center p-2  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
-                <LogOut/>
-                <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
+              className="flex items-center p-4  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group"
+            >
+              <LogOut />
+              <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
             </Link>
           </div>
         </div>

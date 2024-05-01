@@ -12,7 +12,7 @@ interface prop {
 
 const page: React.FC<prop> = ({ card1, card2, card3 }) => {
   return (
-    <div className='flex gap-10 mt-8'>
+    <div className='flex gap-4 mt-8'>
       <div className='flex-3 flex flex-col gap-8'>
         <div className='flex gap-8 justify-between'>
           <Cards title="Users" color={card1} total='7,234' pourcentage='8,2' />
@@ -20,10 +20,11 @@ const page: React.FC<prop> = ({ card1, card2, card3 }) => {
           <Cards title="Pilgrims" color={card3} total='5,920' pourcentage='4,2' />
         </div>
         <Charte />
-        <div className='flex gap-4 justify-around'>
-          <Pourcentage />
+        <div className=' flex gap-2 justify-between'>
+          <Pourcentage /> 
           <Barcharte />
-        </div>
+        </div>      
+
       </div>
       <div className='flex-1'>
         <Rank />
