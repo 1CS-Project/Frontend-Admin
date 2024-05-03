@@ -31,7 +31,7 @@ export let wilayaElements:sideBar[]=[
     },
     {
         name:"Communes",
-        link:"/communes",
+        link:"/commune",
         icon:<Vilage/>
     },
     {
@@ -92,7 +92,7 @@ export let adminElements:sideBar[]=[
     },
     {
         name:"Communes",
-        link:"/communes",
+        link:"/commune",
         icon:<Vilage/>
     },
     {

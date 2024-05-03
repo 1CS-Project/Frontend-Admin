@@ -5,23 +5,33 @@ import LogOut from "@/components/icons/logOut";
 import { adminElements, communeElements, wilayaElements } from "./sidebarElements";
 import { useLocale } from 'next-intl';
 import { usePathname } from "next/navigation";
+import { logOut } from "@/app/action";
 
 // enum roles{
 //   admin,
 //   wilaya,
 //   baladiya
 // }
+type props={
+  role:string
+}
 
-
-function Sidebar() {
+function Sidebar({role}:props) {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isOpen, setIsOpen] = useState(false);
   const locale = useLocale();
   const pathname = usePathname();
   const path = pathname.slice(3);
+  let items;
 
-  let items = adminElements;
+  if (role==="WILAYA"){
+     items=wilayaElements;
+  }else if (role==="BALADIA"){
+     items=communeElements;
+  }else{
+     items=adminElements;
+  }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -91,13 +101,14 @@ function Sidebar() {
               ))}
           </ul>
           <div className="space-y-0 font-medium">
-            <Link
-              href="/"
-              className="flex items-center p-4  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group"
-            >
-              <LogOut />
-              <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
-            </Link>
+            <div
+              onClick={()=>{
+                logOut();
+              }}
+              className="flex items-center p-4 select-none cursor-pointer  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
+                <LogOut />
+                <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
+            </div>
           </div>
         </div>
 
