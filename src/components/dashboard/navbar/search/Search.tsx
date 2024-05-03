@@ -4,7 +4,7 @@ import Search from "@/components/icons/search";
 import { usePathname } from "next/navigation";
 
 
-const searchRequired=["/dashboard/candidat"]
+const searchRequired=["/dashboard/candidat","/dashboard/wilaya"]
 
 function SearchInput() {
 

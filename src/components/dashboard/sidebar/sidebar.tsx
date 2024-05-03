@@ -3,25 +3,35 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import LogOut from "@/components/icons/logOut";
 import { adminElements, communeElements, wilayaElements } from "./sidebarElements";
-import {useLocale} from 'next-intl';
+import { useLocale } from 'next-intl';
 import { usePathname } from "next/navigation";
+import { logOut } from "@/app/action";
 
 // enum roles{
 //   admin,
 //   wilaya,
 //   baladiya
 // }
+type props={
+  role:string
+}
 
-
-function Sidebar() {
+function Sidebar({role}:props) {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isOpen, setIsOpen] = useState(false);
-  const locale=useLocale();
-  const pathname=usePathname();
-  const path=pathname.slice(3);
+  const locale = useLocale();
+  const pathname = usePathname();
+  const path = pathname.slice(3);
+  let items;
 
-  let items=adminElements;
+  if (role==="WILAYA"){
+     items=wilayaElements;
+  }else if (role==="BALADIA"){
+     items=communeElements;
+  }else{
+     items=adminElements;
+  }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -62,7 +72,7 @@ function Sidebar() {
         className={`fixed justify-between top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? "" : "-translate-x-full sm:translate-x-0"
           }`} aria-label="Sidebar"
       >
-        <div className="h-full py-8 bg-gray-50 dark:bg-gray-100 ">
+        <div className="h-full py-4 bg-gray-50 dark:bg-gray-100 ">
           <button
             type="button"
             className=" inline-flex px-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover dark:focus:ring-gray-600"
@@ -76,34 +86,29 @@ function Sidebar() {
             Makkah
           </h2>
 
-          <ul className="space-y-4 font-medium mt-6 ">
-            {items?.map((e)=>{
-              console.log(path==="/dashboard"+e.link);
-              console.log("path",path);
-              console.log("link","/dashboard"+e.link);
-              
-              
-              
-              return (<li>
-                <Link
-
-                href={"/"+locale+"/dashboard"+e.link}
-                className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group "+(path==="/dashboard"+e.link?"bg-[#f5f5f5]":"")}
-              >
-                {e.icon}
-                <span className="ms-3">{e.name}</span>
-              </Link>
-              </li>
-)})}
+          <ul className="space-y-0 font-medium mt-2 ">
+            {items?.map((e)=>(
+                <li
+                  key={e.name}
+                  >
+                  <Link
+                    href={"/"+locale+"/dashboard"+e.link}
+                    className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group "+(path==="/dashboard"+e.link?"bg-[#f5f5f5]":"")}>
+                      {e.icon}
+                      <span className="ms-3">{e.name}</span>
+                  </Link>
+                </li>
+              ))}
           </ul>
-          <div className="mt-8">
-            <Link
-              href="/"
-              className="flex items-center p-2  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group"
-            >
-              <LogOut/>
-              <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
-            </Link>
+          <div className="space-y-0 font-medium">
+            <div
+              onClick={()=>{
+                logOut();
+              }}
+              className="flex items-center p-4 select-none cursor-pointer  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
+                <LogOut />
+                <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
+            </div>
           </div>
         </div>
 
