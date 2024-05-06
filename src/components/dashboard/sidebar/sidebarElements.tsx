@@ -52,11 +52,11 @@ export let communeElements=[
         link:"/candidat",
         icon:<User/>
     },
-    {
-        name:"Commune",
-        link:"/commune",
-        icon:<Vilage/>
-    },
+    // {
+    //     name:"Commune",
+    //     link:"/commune",
+    //     icon:<Vilage/>
+    // },
     {
         name:"Tirage",
         link:"/tirage",
@@ -88,11 +88,6 @@ export let adminElements:sideBar[]=[
     {
         name:"Wilaya",
         link:"/wilaya",
-        icon:<Vilage/>
-    },
-    {
-        name:"Communes",
-        link:"/commune",
         icon:<Vilage/>
     },
     {

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
-function login() {
+function Login() {
   const router=useRouter()
   let [error,setError]=useState<string|undefined>(undefined);
 
@@ -81,4 +81,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;
