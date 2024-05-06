@@ -91,11 +91,6 @@ export let adminElements:sideBar[]=[
         icon:<Vilage/>
     },
     {
-        name:"Communes",
-        link:"/communes",
-        icon:<Vilage/>
-    },
-    {
         name:"Tirage",
         link:"/tirage",
         icon:<Tirage/>

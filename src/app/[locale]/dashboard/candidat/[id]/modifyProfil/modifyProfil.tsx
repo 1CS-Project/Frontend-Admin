@@ -15,6 +15,12 @@ function modifyProfil() {
 
   return (
     <div className="mr-14 ">
+        <Link href={"/"} className="flex items-center mt-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 ">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          <p className="font-semibold ml-2">Return</p>
+        </Link>
       <Image
         height={70}
         width={70}
@@ -252,8 +258,6 @@ function modifyProfil() {
 
         </div>
       </div>
-      <Link
-        href={"//dashboard/candidat/modifyProfil"}>
         <button
           type="submit"
           className="mt-2 flex gap-1 justify-center w-full bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg">
@@ -282,7 +286,7 @@ function modifyProfil() {
 
           Confirm
         </button>
-      </Link>
+        <Mehremdetails/>
     </div>
   )
 }

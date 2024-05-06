@@ -85,7 +85,7 @@ function Sidebar() {
 
 
               return (
-              <li>
+              <li key={e.name}>
                 <Link
 
                   href={"/" + locale + "/dashboard" + e.link}

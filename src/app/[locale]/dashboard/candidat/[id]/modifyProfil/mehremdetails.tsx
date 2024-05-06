@@ -3,7 +3,7 @@ import Link from "next/link"
 
 function mehremdetails() {
   return (
-    <dialog id="my_modal_3" className="modal">
+    <dialog id="my_modal_3" className="modal m-auto">
       <div className="modal-box">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -14,12 +14,11 @@ function mehremdetails() {
           <h2 className="block text-2xl mb-2 font-bold text-gray-800 dark:text-gray-200">
             Mehrem details
           </h2>
-          <p id="message" className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            i          </p>
+          
         </div>
 
         <div className="mt-5">
-          <div className="mr-14 ">
+          <div className="m-auto ">
             <Image
               height={70}
               width={70}
