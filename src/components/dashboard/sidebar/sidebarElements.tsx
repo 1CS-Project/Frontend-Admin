@@ -52,11 +52,11 @@ export let communeElements=[
         link:"/candidat",
         icon:<User/>
     },
-    {
-        name:"Commune",
-        link:"/commune",
-        icon:<Vilage/>
-    },
+    // {
+    //     name:"Commune",
+    //     link:"/commune",
+    //     icon:<Vilage/>
+    // },
     {
         name:"Tirage",
         link:"/tirage",

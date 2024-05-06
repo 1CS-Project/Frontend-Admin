@@ -16,7 +16,6 @@ export const handleI18nRouting = createMiddleware({
 let landings =["/en","/ar","/fr"]
 
 export async function middleware(req:NextRequest){
-    console.log(req.nextUrl);
     
     if (req.nextUrl.pathname==="/"){
       return NextResponse.redirect(new URL("/"+defaultLocale,req.url))

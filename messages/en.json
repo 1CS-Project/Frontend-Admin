@@ -1,5 +1,63 @@
 {
     "Index": {
       "title": "Hello world!"
+    },
+    "tirageForm":{ 
+      "register":"Register",
+      "firstname":{
+        "name":"First name",
+        "error":"First name is required"
+      },
+      "lastname":{
+        "name":"Last name",
+        "error":"Last name is required"
+      },
+      "phoneNumber":{
+        "name":"Phone number",
+        "error":"Phone number start with +213"
+      },
+      "birthCerteficateNumber":{
+        "name":"Birth certificate number",
+        "error":"The number must be of length 5"
+      },
+      "state":{
+        "name":"State",
+        "error":"State name is required"
+      },
+      "city":{
+        "name":"City",
+        "error":"City name is required"
+      },
+      "nationalIdNumber":{
+        "name":"National ID number",
+        "error":"The number must be of length 18"
+      },
+      "passportNumber":{
+        "name":"Passport number",
+        "error":"The number must be of length 9"
+      },
+      "passportExpirationDate":{
+        "name":"Passport expire date",
+        "error":"Invalid date",
+        "expireError":"the passport must be at least 6 months old"
+      },
+      "dateOfBirth":{
+        "name":"Birth date",
+        "error":"Invalid date",
+        "ageError":"you must be at least 19 years old"
+      },
+      "gender":{
+        "name":"gender",
+        "error":"This field is required"
+      },
+      "image":{
+        "name":"Upload a square image",
+        "error":"The picture is required"
+      },
+      "mahremRelation":{
+        "name":"Mahrem relation",
+        "error":"This field is required"
+      }
+      
     }
   }

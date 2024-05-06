@@ -26,7 +26,7 @@ function Sidebar({role}:props) {
   let items;
 
   if (role==="WILAYA"){
-     items=wilayaElements;
+     items=adminElements;
   }else if (role==="BALADIA"){
      items=communeElements;
   }else{

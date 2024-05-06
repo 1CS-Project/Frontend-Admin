@@ -45,7 +45,7 @@ export async function handleLogin(code:string,password:string){
 
 
 export async function getToken(){
-    const token=cookies().get("jwt");
+    const token=cookies().get("jwt")?.value;
 
     return token;
 }
@@ -76,3 +76,179 @@ export async function logOut(){
     redirect("/")
 }
 
+export type contactUsT={
+    // id: string,
+    meta: string,
+    instagram: string,
+    number:string,
+    email: string,
+    linkedIn:string,
+    twitter:string,
+    youtube:string,
+    website:string,
+    localisationUrl: string,
+    openfrom: string,
+    opento: string
+}
+
+export async function getContactUs():Promise<contactUsT|Record<string,any>>{
+    
+    try {
+      let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AfficheCont`);
+  
+      if (res.ok){
+        let data=await res.json();
+        let result=data.result as contactUsT[]|undefined
+        if (result&&result.length>0){
+          return result[0];
+        }
+        if (result){
+            return {}
+        }
+        throw new Error("Something went wrong")
+      }
+
+      let d=await res.json();
+
+      if (d.showForm){
+        return {}
+      }
+      throw new Error("Something went wrong")
+      
+    } catch (error) {
+      throw new Error("Please try again later")
+    }
+  
+  }
+  
+type wilaya={
+    Number_of_communes: string,
+    code: string,
+    codeW: string,
+    id: string,
+    numberofplace: string,
+    password: string,
+    population: string,
+    wilaya: string,
+    wilayaemail: string
+}
+
+
+export async function getAllWilaya(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierToutWilaya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+
+        if (res.ok){
+            let data=await res.json()
+            return data.result as wilaya[]
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getWilayaById(id:string){
+    const token=cookies().get("jwt")?.value;    
+    let res;
+    try {
+        res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierWilaya/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+
+    if (res.ok){
+        let data=await res.json()
+        return data.result as wilaya;
+    }else {
+        throw Error("Something went wrong")
+    }
+}
+
+
+type candidatMin={
+        firstname: string,
+        lastname: string,
+        nationalIdNumber: string,
+        uncount:boolean
+      }
+
+export async function getCandidatsByPlace(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+
+        if (res.ok){
+            let data=await res.json()
+            if (!data){
+                data=[]
+            }
+            return data as candidatMin[]
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+type candidat={
+    nationalIdNumber: string,
+    registrationYear: number,
+    firstname: string,
+    lastname: string,
+    phoneNumber: string,
+    birthCerteficateNumber: string,
+    city: string,
+    state: string,
+    passportExpirationDate: string,
+    dateOfBirth: string,
+    gender: "male"|"female",
+    imageUrl:string,
+    PassportNumber: string,
+    mahremId?: string,
+    mahremRelation?: "husband" | "brother" | "father" | "son",
+    userId: string,
+    uncount?: number
+}
+export async function getCandidatById(id:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidate-infos/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+
+        if (res.ok){
+            let data=await res.json()
+            return data as candidat
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
