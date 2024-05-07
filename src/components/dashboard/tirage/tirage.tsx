@@ -1,46 +1,92 @@
 'use client';
+import { getCandidatsByPlace } from '@/app/action';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
+// import { socket } from '@/app/socket';
+import { useQuery } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react';
+import { Socket, io } from 'socket.io-client';
 
-function tirage() {
+
+type props={
+  token:string
+  user:{
+    name:string,
+    role:"WIZARA"|"BALADIA"|"WILLAYA"
+  }
+}
+
+let socket:Socket<DefaultEventsMap, DefaultEventsMap>;
+
+function Tirage({token,user}:props) {
+
+  const { data,error,isError } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
+  
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-
+  let [winners,setWinners]=useState<string[]>([]);
+  // console.log(winners);
   const handleChoiceClick = (choice: string) => {
     setSelectedChoice(choice);
   };
+
+  let [started,setStarted]=useState(false);
   
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    const startBtn = document.getElementById('startBtn') as HTMLButtonElement;
-    const stopBtn = document.getElementById('stopBtn') as HTMLButtonElement;
-    const nameContainer = document.getElementById('nameContainer') as HTMLDivElement;
-    const selectedNameContainer = document.getElementById('selectedName') as HTMLDivElement;
-    const names: string[] = ["Ikram Dadoune", "Lakhmi hichem", "Salmi Oussama", "Toumi Adem", "El bahri Amine", "Benouaf Rami"];
-    let intervalId: NodeJS.Timeout | number;
+    // socket.on("connection",(so)=>{
+      // socket.emit("Button_submit",user.name)
+      socket = io(process.env.NEXT_PUBLIC_BACKEND!);
 
-    nameContainer.innerHTML = names.slice(0, 3).join('<br>');
+      socket.on("connect", () => {
+        console.log(socket.connected); // true
+      });
 
-    startBtn.addEventListener('click', () => {
-      let index = 3;
-      intervalId = setInterval(() => {
-        if (index >= names.length) index = 0;
-        nameContainer.innerHTML = names.slice(index, index + 3).join('<br>');
-        index += 3;
-      }, 200);
-    });
+      socket.on("winner",(e)=>{
+        console.log("here");
+        
+         setWinners((el)=>[...el,e])     
+        })
 
-    stopBtn.addEventListener('click', () => {
-      clearInterval(intervalId as number);
-      const randomIndex = Math.floor(Math.random() * names.length);
-      selectedNameContainer.innerText = names[randomIndex];
-    });
+      socket.on("fin",()=>{
+        console.log("fin");
+        
+      })
+
+    
+    // })
+    // const startBtn = document.getElementById('startBtn') as HTMLButtonElement;
+    // const stopBtn = document.getElementById('stopBtn') as HTMLButtonElement;
+    // const nameContainer = document.getElementById('nameContainer') as HTMLDivElement;
+    // const selectedNameContainer = document.getElementById('selectedName') as HTMLDivElement;
+    // const names: string[] = ["Ikram Dadoune", "Lakhmi hichem", "Salmi Oussama", "Toumi Adem", "El bahri Amine", "Benouaf Rami"];
+    // let intervalId: NodeJS.Timeout | number;
+
+    // nameContainer.innerHTML = names.slice(0, 3).join('<br>');
+
+    // startBtn.addEventListener('click', () => {
+    //   let index = 3;
+    //   intervalId = setInterval(() => {
+    //     if (index >= names.length) index = 0;
+    //     nameContainer.innerHTML = names.slice(index, index + 3).join('<br>');
+    //     index += 3;
+    //   }, 200);
+    // });
+
+    // stopBtn.addEventListener('click', () => {
+    //   clearInterval(intervalId as number);
+    //   const randomIndex = Math.floor(Math.random() * names.length);
+    //   selectedNameContainer.innerText = names[randomIndex];
+    // });
+    return ()=>{
+      socket.close()
+    }
   }, []);
 
   return (
     <div className='mt-10 '>
       <div className='gap-2 flex items-center font-semibold text-xl'>
-        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>100</p>
-        <p>Place Pour la wilaya D’Alger</p>
+        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>10</p>
+        <p>Place Pour la {user.role.toLowerCase()} de {user.name}</p>
       </div>
 
       <div>
@@ -105,18 +151,33 @@ function tirage() {
       </div>
 
       <div id="container" className='w-[70%] items-start mt-10'>
-        <p className='font-semibold text-xl mb-2'>All the participants <span> (1000)</span></p>
-        <div id="nameContainer" className='bg-[#FFFBF1] p-4 rounded-md mb-4'></div>
-        <p className='font-semibold text-xl mb-2'>The selected participants <span> (2)</span></p>
+        <p className='font-semibold text-xl mb-2'>All the participants <span> ({data?.filter(e=>e.uncount!==1).length})</span></p>
+        <div id="nameContainer" className='bg-[#FFFBF1] p-4 rounded-md mb-4'>
+          {data?.map(e=>{
+            if (e.uncount!==1){
+              return  (
+                 <h1>{e.firstname+" "+e.lastname}</h1>
+               )
+            }
+          })}
+        </div>
+        <p className='font-semibold text-xl mb-2'>The selected participants <span> ({winners.length})</span></p>
 
-        <div id="selectedName" className='bg-[#FFFBF1] p-4 rounded-md mt-4'></div>
+        <div id="selectedName" className='bg-[#FFFBF1] p-4 rounded-md mt-4'>
+          {winners.map(e=>(
+            <h1>{e}</h1>
+          ))}
+        </div>
         <div className=' flex justify-center items-center gap-4 mt-4'>
-          <button id="startBtn" type="submit" className="w-full bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg">
+          <button disabled={started} onClick={()=>{
+              socket.emit("Button_submit",user.name)
+              setStarted(true)
+          }} id="startBtn" type="submit" className="w-full bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg">
             Start
           </button>
-          <button id="stopBtn" type="submit" className="w-full bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
+          {/* <button id="stopBtn" type="submit" className="w-full bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
             Stop
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -125,4 +186,4 @@ function tirage() {
   );
 }
 
-export default tirage;
+export default Tirage;

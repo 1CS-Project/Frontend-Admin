@@ -52,7 +52,8 @@ export async function getToken(){
 
 export async function getUserData(){
     const token=cookies().get("jwt")?.value;    
-
+    // console.log(token);
+    
     try {
         const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getUserData`,{
             headers:{
@@ -63,7 +64,8 @@ export async function getUserData(){
             return undefined;
         }
         const data=await res.json();
-
+        console.log(data);
+        
         return {name:data.name,role:data.role};
     } catch (error) {
         return undefined;
@@ -183,7 +185,7 @@ type candidatMin={
         firstname: string,
         lastname: string,
         nationalIdNumber: string,
-        uncount:boolean
+        uncount?:number
       }
 
 export async function getCandidatsByPlace(){

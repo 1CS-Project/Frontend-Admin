@@ -1,7 +1,6 @@
 import Candidats from "@/components/dashboard/candidats/candidats";
 import { useLocale } from "next-intl";
-import { getAllWilaya, getCandidatsByPlace, getToken } from "@/app/action";
-import Wilayas from "@/components/dashboard/wilayas/wilayas";
+import {  getCandidatsByPlace, getToken } from "@/app/action";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 async function Page() {

@@ -9,8 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { getCandidatById, getCandidatsByPlace } from "@/app/action";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-
-
+import { useEffect } from "react";
 
 function ModifyProfil() {
 
@@ -24,6 +23,10 @@ function ModifyProfil() {
   const {register,handleSubmit,control,formState:{errors},setError} =useForm<tirageRegT>({resolver:zodResolver(TirageRegSchema),shouldUnregister:true,defaultValues:{
     ...data
   }})
+
+  useEffect(()=>{
+
+  })
   return (
     <div className="mr-14 ">
         <Image

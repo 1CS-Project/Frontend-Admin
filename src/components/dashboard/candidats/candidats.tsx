@@ -64,7 +64,7 @@ function Candidats({locale,token}:props) {
                 </td>
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className={`${item.uncount===1?"text-gray-400":""} px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white`}
                 >
                   {item?.nationalIdNumber}
                 </th>

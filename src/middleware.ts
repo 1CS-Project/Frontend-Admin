@@ -17,12 +17,16 @@ let landings =["/en","/ar","/fr"]
 
 export async function middleware(req:NextRequest){
     
+    // console.log("here");
+    
     if (req.nextUrl.pathname==="/"){
       return NextResponse.redirect(new URL("/"+defaultLocale,req.url))
     }
     const response = handleI18nRouting(req);
 
     let payload=await getUserData()
+    console.log(payload);
+    
 
     if (payload&&Object.keys(payload).length===0){
       payload=undefined;

@@ -30,7 +30,7 @@ function Sidebar({role}:props) {
   }else if (role==="BALADIA"){
      items=communeElements;
   }else{
-     items=adminElements;
+     items=wilayaElements;
   }
 
   const toggleSidebar = () => {
