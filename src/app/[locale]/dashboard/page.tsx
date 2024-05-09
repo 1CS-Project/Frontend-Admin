@@ -3,14 +3,17 @@ import Barcharte from '@/components/dashboard/barcharte/barcharte';
 import Cards from '@/components/dashboard/cards/cards'
 import Charte from '@/components/dashboard/charte/charte'
 import Pourcentage from '@/components/dashboard/pourcentage/pourcentage'
-interface prop {
-  card1: "E3F6E0";
-  card2: 'E6F4F6';
-  card3: 'EEF6F7';
+
+
+const cards ={
+  card1: "E3F6E0",
+  card2: 'E6F4F6',
+  card3: 'EEF6F7',
 }
 
 
-const page: React.FC<prop> = ({ card1, card2, card3 }) => {
+function Page(){
+  let { card1, card2, card3 }=cards
   return (
     <div className='flex gap-4 mt-8'>
       
@@ -34,4 +37,4 @@ const page: React.FC<prop> = ({ card1, card2, card3 }) => {
   )
 }
 
-export default page
+export default Page;

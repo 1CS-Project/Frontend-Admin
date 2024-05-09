@@ -13,7 +13,7 @@ async function Page() {
     })      
 
     return ( 
-        <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <Wilayas token={token!}/>
       </HydrationBoundary>
     );

@@ -85,7 +85,7 @@ function Tirage({token,user}:props) {
   return (
     <div className='mt-10 '>
       <div className='gap-2 flex items-center font-semibold text-xl'>
-        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>10</p>
+        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>5</p>
         <p>Place Pour la {user.role.toLowerCase()} de {user.name}</p>
       </div>
 
@@ -156,7 +156,7 @@ function Tirage({token,user}:props) {
           {data?.map(e=>{
             if (e.uncount!==1){
               return  (
-                 <h1>{e.firstname+" "+e.lastname}</h1>
+                 <h1 key={e.firstname+e.lastname}>{e.firstname+" "+e.lastname}</h1>
                )
             }
           })}
@@ -165,14 +165,14 @@ function Tirage({token,user}:props) {
 
         <div id="selectedName" className='bg-[#FFFBF1] p-4 rounded-md mt-4'>
           {winners.map(e=>(
-            <h1>{e}</h1>
+            <h1 key={e}>{e}</h1>
           ))}
         </div>
         <div className=' flex justify-center items-center gap-4 mt-4'>
           <button disabled={started} onClick={()=>{
               socket.emit("Button_submit",user.name)
               setStarted(true)
-          }} id="startBtn" type="submit" className="w-full bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg">
+          }} id="startBtn" type="submit" className={`w-full ${!started?"bg-[#13A10E] cursor-pointer":"bg-gray-400 cursor-not-allowed"} px-4 py-2 text-white font-medium rounded-lg`}>
             Start
           </button>
           {/* <button id="stopBtn" type="submit" className="w-full bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
