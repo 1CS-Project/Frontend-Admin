@@ -254,7 +254,7 @@ export async function getCandidatById(id:string){
 }
 
 
-type commune={
+export type commune={
     wilaya: string,
     codeC: string,
     baladiya:string,
@@ -264,6 +264,7 @@ type commune={
     code?: string,
     password?: string
 }
+
 
 export async function getCommunes(){
 
