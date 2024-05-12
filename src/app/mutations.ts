@@ -85,15 +85,39 @@ export async function updateCommune(token:string,k:CommuneMin,baladiya:string){
     }
 }
 
-export type WilayaMin={
+export type Wilaya={
     wilayaemail:string,
     population:string,
     Number_of_communes:string,
     numberofplace:string
 }
-export async function updateWilaya(token:string,k:WilayaMin,wilaya:string){
+export async function updateWilaya(token:string,k:Wilaya,wilaya:string){
     try {
         const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/UpdateWilayaParDetailes`,{
+            method:"PUT",
+            body:JSON.stringify({...k,wilaya}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }
+}
+
+export type WilayaMin={
+    wilayaemail:string,
+    population:string,
+    numberofplace:string
+}
+export async function updateWilayaSend(token:string,k:WilayaMin,wilaya:string){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/ConfirmeSendWilayaEmail`,{
             method:"PUT",
             body:JSON.stringify({...k,wilaya}),
             headers:{

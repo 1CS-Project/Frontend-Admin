@@ -122,16 +122,15 @@ export async function getContactUs():Promise<contactUsT|Record<string,any>>{
   
   }
   
-type wilaya={
-    Number_of_communes: string,
-    code: string,
-    codeW: string,
-    id: string,
-    numberofplace: string,
-    password: string,
-    population: string,
+export type wilayaT={
+    Number_of_communes?: string,
+    code?: string,
+    codeW?: string,
+    numberofplace?: string,
+    password?: string,
+    population?: string,
     wilaya: string,
-    wilayaemail: string
+    wilayaemail?: string
 }
 
 
@@ -147,7 +146,7 @@ export async function getAllWilaya(){
 
         if (res.ok){
             let data=await res.json()
-            return data.result as wilaya[]
+            return data.result as wilayaT[]
         }else {
             throw Error("Something went wrong")
         }
@@ -173,7 +172,7 @@ export async function getWilayaByName(name:string){
 
     if (res.ok){
         let data=await res.json()
-        return data.result as wilaya;
+        return data.result as wilayaT;
     }else {
         throw Error("Something went wrong")
     }
@@ -311,3 +310,4 @@ export async function getCommuneByName(name:string){
     }
 
 }
+

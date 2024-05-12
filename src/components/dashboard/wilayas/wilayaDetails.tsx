@@ -1,6 +1,6 @@
 "use client"
 import {  getWilayaByName } from "@/app/action";
-import { WilayaMin, updateWilaya } from "@/app/mutations";
+import { Wilaya, updateWilaya } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
 import Check from "@/components/icons/check";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -13,17 +13,20 @@ type props={
 
 function WilayaDetails({token}:props) {
 
-    function isEqual(d:WilayaMin){
+    function isEqual(d:Wilaya){
+
+        
+        
         if (data?.wilayaemail!==d.wilayaemail){
             return false;
         }
-        if (data?.Number_of_communes.toString()!==d.Number_of_communes){
+        if (data?.Number_of_communes?.toString()!==d.Number_of_communes){
             return false;
         }
-        if (data?.population.toString()!==d.population){
+        if (data?.population?.toString()!==d.population){
             return false;
         }
-        if (data?.numberofplace.toString()!==d.numberofplace){
+        if (data?.numberofplace?.toString()!==d.numberofplace){
             return false;
         }
         return true;
@@ -48,7 +51,7 @@ function WilayaDetails({token}:props) {
     })
 
     const {mutate,isPending}=useMutation(({
-        mutationFn:(d:WilayaMin)=>updateWilaya(token,d,wilaya),
+        mutationFn:(d:Wilaya)=>updateWilaya(token,d,wilaya),
         onSuccess:()=>{
           return queryClient.invalidateQueries({queryKey:['wilayas']})
         }
@@ -59,7 +62,7 @@ function WilayaDetails({token}:props) {
             <form onSubmit={(e)=>{
                 e.preventDefault();
                 const formData=new FormData(e.currentTarget);
-                const d:WilayaMin={
+                const d:Wilaya={
                     wilayaemail:formData.get("wilayaemail") as string,
                     numberofplace:formData.get("numberofplace") as string,
                     population:formData.get("population") as string,
@@ -73,7 +76,7 @@ function WilayaDetails({token}:props) {
             }}
             onChange={(e)=>{
                 const formData=new FormData(e.currentTarget);
-                const d:WilayaMin={
+                const d:Wilaya={
                     wilayaemail:formData.get("wilayaemail") as string,
                     numberofplace:formData.get("numberofplace") as string,
                     population:formData.get("population") as string,

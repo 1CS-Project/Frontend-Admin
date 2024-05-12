@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import { updateCandidat } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
 import { useRouter } from "next/navigation";
+import Check from "@/components/icons/check";
 
 type props={
   token:string
@@ -85,28 +86,7 @@ function ModifyProfil({token}:props) {
               disabled={!isDirty || isPending}
               type="submit"
               className="mt-6 flex gap-1 justify-center w-full bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400">
-                <svg
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clipPath="url(#clip0_522_15685)">
-                    <path
-                      d="M5 12L10 17L20 7"
-                      stroke="#F5F5F5"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_522_15685">
-                      <rect width={24} height={24} fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+                <Check/>
                 {isPending?"Loading...":'Confirm'}
             </button>
         </form>

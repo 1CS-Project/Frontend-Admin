@@ -15,3 +15,34 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+
+@keyframes dd {
+  from{
+    max-height: 0px;
+  }
+  to{
+    max-height: 300px;
+  }
+}
+@keyframes d{
+  from{
+    max-height: 300px;
+  }
+  to{
+    max-height: 0px;
+  }
+}
+
+.slideIn{
+  overflow: hidden;
+  animation: dd  ease-in forwards;
+}
+.slideOut{
+  overflow: hidden;
+  animation: dd 2s linear backwards;
+  /* max-height:0px ; */
+  /* transition: all; */
+  /* transition-duration: 2000ms; */
+}
