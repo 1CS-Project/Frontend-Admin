@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 function Return() {
     let pathname=usePathname();
-    console.log(pathname);
+    
     if (pathname.slice(3)==="/dashboard"){
         return (
             <h1 className="text-xl font-medium">Welcome!</h1>

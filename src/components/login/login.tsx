@@ -40,7 +40,6 @@ function Login() {
             // let data=aw
             if (code && password){
               let res=await handleLogin(code,password)
-              console.log(res);
               
               if (res.loggedIn){
                 router.push("/en/dashboard")

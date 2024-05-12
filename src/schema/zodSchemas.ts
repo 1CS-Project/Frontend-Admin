@@ -56,7 +56,7 @@ function birthdateCheck(d:string){
 export const TirageRegSchemaF=(t:(arg:string)=>string)=> z.object({
     firstname:z.string().trim().min(1,t("firstname.error")),
     lastname:z.string().trim().min(1,t("lastname.error")),
-    phoneNumber:z.string().regex(/\+213\d{9}/,t("phoneNumber.error")),
+    phoneNumber:z.string().regex(/^\+213\d{9}$/,t("phoneNumber.error")),
     birthCerteficateNumber:z.string().regex(/^\d{5}$/,t("birthCerteficateNumber.error")),
     city:z.string().trim().min(1,t("city.error")),
     state:z.string().trim().min(1,t("state.error")),
@@ -65,23 +65,11 @@ export const TirageRegSchemaF=(t:(arg:string)=>string)=> z.object({
     passportExpirationDate:z.string().regex(/^\d\d\d\d-\d\d-\d\d$/,t("passportExpirationDate.error")).refine((val)=> duration(val),t("passportExpirationDate.expireError")), //yyyy-mm-dd
     dateOfBirth:z.string().regex(/^\d\d\d\d-\d\d-\d\d$/,t("dateOfBirth.error")).refine((val)=>birthdateCheck(val),t("dateOfBirth.ageError")),
     // imageUrl:z.string().url(),
-    imageUrl:z.string().optional(),
+    imageUrl:z.string(),
     gender:z.enum(["male","female"],{required_error:t('gender.error'),invalid_type_error:t('gender.error')}),
-    mahremId:z.string().regex(/^\d{18}$/,t("nationalIdNumber.error")).optional().or(z.literal("")),
-    mahremRelation:z.enum(["husband","brother","father","son"],{required_error:t('mahremRelation.error'),invalid_type_error:t('mahremRelation.error')}).optional(),
+    // mahremId:z.string().regex(/^\d{18}$/,t("nationalIdNumber.error")).optional().or(z.literal("")),
+    // mahremRelation:z.enum(["husband","brother","father","son"],{required_error:t('mahremRelation.error'),invalid_type_error:t('mahremRelation.error')}).optional(),
 })
-.refine((input)=>{
-    
-    if (input.gender==="female"&&(input.mahremId===""||input.mahremId===undefined)){
-        return false
-    }
-
-    return true;
-},{
-    message:"mahrem is required",
-    path:["mahremId"]
-})
-
 
 
 

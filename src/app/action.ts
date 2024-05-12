@@ -64,7 +64,6 @@ export async function getUserData(){
             return undefined;
         }
         const data=await res.json();
-        console.log(data);
         
         return {name:data.name,role:data.role};
     } catch (error) {
@@ -158,11 +157,11 @@ export async function getAllWilaya(){
     }
 }
 
-export async function getWilayaById(id:string){
+export async function getWilayaByName(name:string){
     const token=cookies().get("jwt")?.value;    
     let res;
     try {
-        res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierWilaya/${id}`,{
+        res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierWilaya?name=${name}`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
@@ -182,17 +181,17 @@ export async function getWilayaById(id:string){
 
 
 type candidatMin={
-        firstname: string,
-        lastname: string,
-        nationalIdNumber: string,
+    firstname: string,
+    lastname: string,
+    nationalIdNumber: string,
         uncount?:number
-      }
+    }
+    
+    export async function getCandidatsByPlace(){
+        const token=cookies().get("jwt")?.value;    
 
-export async function getCandidatsByPlace(){
-    const token=cookies().get("jwt")?.value;    
-
-    try {
-        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
+        try {
+            let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
@@ -214,9 +213,9 @@ export async function getCandidatsByPlace(){
 }
 
 
-type candidat={
+export type candidat={
     nationalIdNumber: string,
-    registrationYear: number,
+    // registrationYear: number,
     firstname: string,
     lastname: string,
     phoneNumber: string,
@@ -230,19 +229,19 @@ type candidat={
     PassportNumber: string,
     mahremId?: string,
     mahremRelation?: "husband" | "brother" | "father" | "son",
-    userId: string,
-    uncount?: number
+    // userId: string,
+    // uncount?: number,
 }
 export async function getCandidatById(id:string){
     const token=cookies().get("jwt")?.value;    
-
+    
     try {
         let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidate-infos/${id}`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
         });
-
+        
         if (res.ok){
             let data=await res.json()
             return data as candidat
@@ -253,4 +252,62 @@ export async function getCandidatById(id:string){
     } catch (error) {
         throw Error("Please try again later")
     }
+}
+
+
+type commune={
+    wilaya: string,
+    codeC: string,
+    baladiya:string,
+    baladiaemail?: string,
+    population?: number,
+    numberofplace?: number,
+    code?: string,
+    password?: string
+}
+
+export async function getCommunes(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierToutBaladya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.result as commune[]
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getCommuneByName(name:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierBaladia?name=${name}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()            
+            return data.result as commune
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+
 }

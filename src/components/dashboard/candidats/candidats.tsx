@@ -1,7 +1,9 @@
 "use client"
 
 import { getCandidatsByPlace } from "@/app/action";
-import { useQuery } from "@tanstack/react-query";
+import { deleteCandidate } from "@/app/mutations";
+import { getQueryClient } from "@/app/providers";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 
@@ -12,7 +14,17 @@ type props={
 }
 
 function Candidats({locale,token}:props) {
-    const { data,error,isError } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
+  const queryClient=getQueryClient()
+
+    const { data } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
+
+    const {mutate}=useMutation({
+      mutationFn:(id:string)=>deleteCandidate(id,token),
+      onSuccess:()=>{
+        console.log('success');
+        queryClient.invalidateQueries({queryKey:['candidats']})     
+      }
+    })
     console.log(data);
     
     
@@ -92,7 +104,13 @@ function Candidats({locale,token}:props) {
                       Modify
                     </button>
                   </Link>
-                  <button type="submit" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
+                  <button 
+                  onClick={()=>{
+                    console.log("eee");
+                    
+                    mutate(item.nationalIdNumber)
+                  }}
+                  type="button" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
                     <svg
                       width={24}
                       height={24}
