@@ -133,3 +133,23 @@ export async function updateWilayaSend(token:string,k:WilayaMin,wilaya:string){
         throw Error("Something went wrong")
     }
 }
+
+
+export async function updateCommuneSend(token:string,k:CommuneMin,baladiya:string){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/ConfirmeSendBadldiaEmail`,{
+            method:"PUT",
+            body:JSON.stringify({...k,baladiya}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }
+}

@@ -17,7 +17,7 @@ async function Page() {
     
     return ( 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Communes/>
+        <Communes token={token!}/>
     </HydrationBoundary>
      );
 }
