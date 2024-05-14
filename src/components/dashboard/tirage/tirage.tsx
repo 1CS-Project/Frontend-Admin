@@ -1,5 +1,5 @@
 'use client';
-import { getCandidatsByPlace } from '@/app/action';
+import { candidatMin, getCandidatsByPlace } from '@/app/action';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 // import { socket } from '@/app/socket';
 import { useQuery } from '@tanstack/react-query';
@@ -12,12 +12,14 @@ type props={
   user:{
     name:string,
     role:"WIZARA"|"BALADIA"|"WILLAYA"
-  }
+  },
+  data:candidatMin[],
+  numberOfplace:number
 }
 
 let socket:Socket<DefaultEventsMap, DefaultEventsMap>;
 
-function Tirage({token,user}:props) {
+function Tirage({token,user,data,numberOfplace}:props) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [intervals, setIntervals] = useState<{ min: number; max: number; count: number }[]>([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -34,7 +36,7 @@ function Tirage({token,user}:props) {
     setParticipantCount(count);
   };
 
-  const { data,error,isError } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
+  // const { data,error,isError } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
   
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
@@ -112,7 +114,7 @@ function Tirage({token,user}:props) {
     <div className='mt-10 '>
 
       <div className='gap-2 flex items-center font-semibold text-xl'>
-        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>5</p>
+        <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>{numberOfplace}</p>
         <p>Place Pour la {user.role.toLowerCase()} de {user.name}</p>
       </div>
 
@@ -247,7 +249,7 @@ function Tirage({token,user}:props) {
         </div>
         <div className=' flex justify-center items-center gap-4 mt-4'>
           <button disabled={started} onClick={()=>{
-              socket.emit("Button_submit",user.name)
+              socket.emit("tirage_random",user.name)
               setStarted(true)
           }} id="startBtn" type="submit" className={`w-full ${!started?"bg-[#13A10E] cursor-pointer":"bg-gray-400 cursor-not-allowed"} px-4 py-2 text-white font-medium rounded-lg`}>
             Start

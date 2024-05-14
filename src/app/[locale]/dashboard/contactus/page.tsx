@@ -10,7 +10,7 @@ async function Page() {
   const token=await getToken();
   await queryClient.prefetchQuery({
     queryKey:["contactUs"],
-    queryFn:()=>getContactUs
+    queryFn:()=>getContactUs()
   })                                
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
