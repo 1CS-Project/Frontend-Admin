@@ -9,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily:{
+        "Open":["Open Sans", "sans-serif"],
+        "Inter":["Inter", "sans-serif"]
+
+      },
       colors: {
         'buttonleft': '#B49169',
         'buttonright': '#B5AC49',

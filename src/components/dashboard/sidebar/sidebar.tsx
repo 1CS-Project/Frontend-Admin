@@ -5,23 +5,35 @@ import LogOut from "@/components/icons/logOut";
 import { adminElements, communeElements, wilayaElements } from "./sidebarElements";
 import { useLocale } from 'next-intl';
 import { usePathname } from "next/navigation";
+import { logOut } from "@/app/action";
+import { getQueryClient } from "@/app/providers";
 
 // enum roles{
 //   admin,
 //   wilaya,
 //   baladiya
 // }
+type props={
+  role:string
+}
 
-
-function Sidebar() {
+function Sidebar({role}:props) {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const queryClient=getQueryClient()
   const [isOpen, setIsOpen] = useState(false);
   const locale = useLocale();
   const pathname = usePathname();
   const path = pathname.slice(3);
+  let items;
 
-  let items = adminElements;
+  if (role==="WILAYA"){
+     items=wilayaElements;
+  }else if (role==="BALADIA"){
+     items=communeElements;
+  }else{
+     items=adminElements;
+  }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -77,35 +89,29 @@ function Sidebar() {
           </h2>
 
           <ul className="space-y-0 font-medium mt-2 ">
-            {items?.map((e) => {
-              console.log(path === "/dashboard" + e.link);
-              console.log("path", path);
-              console.log("link", "/dashboard" + e.link);
-
-
-
-              return (
-              <li key={e.name}>
-                <Link
-
-                  href={"/" + locale + "/dashboard" + e.link}
-                  className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group " + (path === "/dashboard" + e.link ? "bg-[#f5f5f5]" : "")}
-                >
-                  {e.icon}
-                  <span className="ms-3">{e.name}</span>
-                </Link>
-              </li>
-              )
-            })}
+            {items?.map((e)=>(
+                <li
+                  key={e.name}
+                  >
+                  <Link
+                    href={"/"+locale+"/dashboard"+e.link}
+                    className={"flex items-center py-4 text-gray-900 px-3 dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group "+(path==="/dashboard"+e.link?"bg-[#f5f5f5]":"")}>
+                      {e.icon}
+                      <span className="ms-3">{e.name}</span>
+                  </Link>
+                </li>
+              ))}
           </ul>
           <div className="space-y-0 font-medium">
-            <Link
-              href="/"
-              className="flex items-center p-4  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group"
-            >
-              <LogOut />
-              <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
-            </Link>
+            <div
+              onClick={async ()=>{
+                logOut();
+                queryClient.invalidateQueries()                
+              }}
+              className="flex items-center p-4 select-none cursor-pointer  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
+                <LogOut />
+                <span className="flex-1 ms-3 whitespace-nowrap">Log out</span>
+            </div>
           </div>
         </div>
 

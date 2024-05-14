@@ -25,20 +25,10 @@ export let wilayaElements:sideBar[]=[
         icon:<User/>
     },
     {
-        name:"Wilaya",
-        link:"/wilaya",
-        icon:<Vilage/>
-    },
-    {
         name:"Communes",
         link:"/communes",
         icon:<Vilage/>
     },
-    {
-        name:"Tirage",
-        link:"/tirage",
-        icon:<Tirage/>
-    }
 ]
 
 export let communeElements=[
@@ -52,11 +42,11 @@ export let communeElements=[
         link:"/candidat",
         icon:<User/>
     },
-    {
-        name:"Commune",
-        link:"/commune",
-        icon:<Vilage/>
-    },
+    // {
+    //     name:"Commune",
+    //     link:"/commune",
+    //     icon:<Vilage/>
+    // },
     {
         name:"Tirage",
         link:"/tirage",
@@ -87,7 +77,7 @@ export let adminElements:sideBar[]=[
     },
     {
         name:"Wilaya",
-        link:"/wilaya",
+        link:"/wilayas",
         icon:<Vilage/>
     },
     {
