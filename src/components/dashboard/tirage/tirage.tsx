@@ -199,7 +199,7 @@ function Tirage({token,user}:props) {
                   </div>
                   <div className="w-[60%] flex  gap-4 justify-between m-auto">
                     <div>
-                      <label htmlFor="participantCount" className=" text-gray-700 text-sm font-bold mb-2">Number of Participants</label>
+                      <label htmlFor="participantCount" className=" text-gray-700 text-sm font-bold mb-2">Number of Places</label>
                       <div className='flex gap-2'>
                         <input
                           id="participantCount"
