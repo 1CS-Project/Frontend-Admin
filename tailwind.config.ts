@@ -11,6 +11,8 @@ const config: Config = {
     extend: {
       fontFamily:{
         "Open":["Open Sans", "sans-serif"],
+        "Inter":["Inter", "sans-serif"]
+
       },
       colors: {
         'buttonleft': '#B49169',

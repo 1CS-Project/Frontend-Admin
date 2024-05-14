@@ -52,7 +52,8 @@ export async function getToken(){
 
 export async function getUserData(){
     const token=cookies().get("jwt")?.value;    
-
+    // console.log(token);
+    
     try {
         const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getUserData`,{
             headers:{
@@ -63,7 +64,7 @@ export async function getUserData(){
             return undefined;
         }
         const data=await res.json();
-
+        
         return {name:data.name,role:data.role};
     } catch (error) {
         return undefined;
@@ -121,16 +122,15 @@ export async function getContactUs():Promise<contactUsT|Record<string,any>>{
   
   }
   
-type wilaya={
-    Number_of_communes: string,
-    code: string,
-    codeW: string,
-    id: string,
-    numberofplace: string,
-    password: string,
-    population: string,
+export type wilayaT={
+    Number_of_communes?: string,
+    code?: string,
+    codeW?: string,
+    numberofplace?: string,
+    password?: string,
+    population?: string,
     wilaya: string,
-    wilayaemail: string
+    wilayaemail?: string
 }
 
 
@@ -146,7 +146,7 @@ export async function getAllWilaya(){
 
         if (res.ok){
             let data=await res.json()
-            return data.result as wilaya[]
+            return data.result as wilayaT[]
         }else {
             throw Error("Something went wrong")
         }
@@ -156,11 +156,11 @@ export async function getAllWilaya(){
     }
 }
 
-export async function getWilayaById(id:string){
+export async function getWilayaByName(name:string){
     const token=cookies().get("jwt")?.value;    
     let res;
     try {
-        res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierWilaya/${id}`,{
+        res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierWilaya?name=${name}`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
@@ -172,7 +172,7 @@ export async function getWilayaById(id:string){
 
     if (res.ok){
         let data=await res.json()
-        return data.result as wilaya;
+        return data.result as wilayaT;
     }else {
         throw Error("Something went wrong")
     }
@@ -180,17 +180,17 @@ export async function getWilayaById(id:string){
 
 
 type candidatMin={
-        firstname: string,
-        lastname: string,
-        nationalIdNumber: string,
-        uncount:boolean
-      }
+    firstname: string,
+    lastname: string,
+    nationalIdNumber: string,
+        uncount?:number
+    }
+    
+    export async function getCandidatsByPlace(){
+        const token=cookies().get("jwt")?.value;    
 
-export async function getCandidatsByPlace(){
-    const token=cookies().get("jwt")?.value;    
-
-    try {
-        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
+        try {
+            let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
@@ -212,9 +212,9 @@ export async function getCandidatsByPlace(){
 }
 
 
-type candidat={
+export type candidat={
     nationalIdNumber: string,
-    registrationYear: number,
+    // registrationYear: number,
     firstname: string,
     lastname: string,
     phoneNumber: string,
@@ -228,19 +228,19 @@ type candidat={
     PassportNumber: string,
     mahremId?: string,
     mahremRelation?: "husband" | "brother" | "father" | "son",
-    userId: string,
-    uncount?: number
+    // userId: string,
+    // uncount?: number,
 }
 export async function getCandidatById(id:string){
     const token=cookies().get("jwt")?.value;    
-
+    
     try {
         let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidate-infos/${id}`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
         });
-
+        
         if (res.ok){
             let data=await res.json()
             return data as candidat
@@ -252,3 +252,63 @@ export async function getCandidatById(id:string){
         throw Error("Please try again later")
     }
 }
+
+
+export type commune={
+    wilaya: string,
+    codeC: string,
+    baladiya:string,
+    baladiaemail?: string,
+    population?: number,
+    numberofplace?: number,
+    code?: string,
+    password?: string
+}
+
+
+export async function getCommunes(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierToutBaladya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.result as commune[]
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getCommuneByName(name:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AffichierBaladia?name=${name}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()            
+            return data.result as commune
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+
+}
+

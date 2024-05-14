@@ -6,6 +6,7 @@ import { adminElements, communeElements, wilayaElements } from "./sidebarElement
 import { useLocale } from 'next-intl';
 import { usePathname } from "next/navigation";
 import { logOut } from "@/app/action";
+import { getQueryClient } from "@/app/providers";
 
 // enum roles{
 //   admin,
@@ -19,6 +20,7 @@ type props={
 function Sidebar({role}:props) {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const queryClient=getQueryClient()
   const [isOpen, setIsOpen] = useState(false);
   const locale = useLocale();
   const pathname = usePathname();
@@ -26,7 +28,7 @@ function Sidebar({role}:props) {
   let items;
 
   if (role==="WILAYA"){
-     items=adminElements;
+     items=wilayaElements;
   }else if (role==="BALADIA"){
      items=communeElements;
   }else{
@@ -102,8 +104,9 @@ function Sidebar({role}:props) {
           </ul>
           <div className="space-y-0 font-medium">
             <div
-              onClick={()=>{
+              onClick={async ()=>{
                 logOut();
+                queryClient.invalidateQueries()                
               }}
               className="flex items-center p-4 select-none cursor-pointer  text-red-600 rounded-lg dark:text-black hover:bg-red-700 hover:text-white group">
                 <LogOut />

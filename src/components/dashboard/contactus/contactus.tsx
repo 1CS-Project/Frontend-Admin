@@ -4,7 +4,7 @@ import { contactUsT, getContactUs } from "@/app/action";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import InputUrl from "./inputUrl";
 import Check from "@/components/icons/check";
-import { updateCont } from "@/app/clientActions";
+import { updateCont } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
 
 type props={
