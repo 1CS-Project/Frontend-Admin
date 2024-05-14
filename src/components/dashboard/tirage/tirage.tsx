@@ -3,12 +3,28 @@ import React, { useState, useEffect } from 'react';
 
 function tirage() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [intervals, setIntervals] = useState<{ min: number; max: number; count: number }[]>([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [minAge, setMinAge] = useState<number>(65);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [maxAge, setMaxAge] = useState<number>(80);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [participantCount, setParticipantCount] = useState<number | ''>('');
+
+  const handleConfirmClick = () => {
+    const count = (document.getElementById('participantCount') as HTMLInputElement).valueAsNumber;
+
+    setIntervals([...intervals, { min: minAge, max: maxAge, count }]);
+    setParticipantCount(count);
+  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+
 
   const handleChoiceClick = (choice: string) => {
     setSelectedChoice(choice);
   };
-  
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const startBtn = document.getElementById('startBtn') as HTMLButtonElement;
@@ -17,8 +33,8 @@ function tirage() {
     const selectedNameContainer = document.getElementById('selectedName') as HTMLDivElement;
     const names: string[] = ["Ikram Dadoune", "Lakhmi hichem", "Salmi Oussama", "Toumi Adem", "El bahri Amine", "Benouaf Rami"];
     let intervalId: NodeJS.Timeout | number;
-
     nameContainer.innerHTML = names.slice(0, 3).join('<br>');
+
 
     startBtn.addEventListener('click', () => {
       let index = 3;
@@ -36,8 +52,20 @@ function tirage() {
     });
   }, []);
 
+  const generateRandomChoice = () => {
+    const choices = ['Choice 1', 'tranch', 'Choice 3'];
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    // Set default choice as random when component mounts
+    setSelectedChoice(generateRandomChoice());
+  }, []); // Empty dependency array ensures this effect runs only once after the initial render
+
   return (
     <div className='mt-10 '>
+
       <div className='gap-2 flex items-center font-semibold text-xl'>
         <p className='text-white bg-gradient-to-r from-buttonleft to-buttonright p-2 rounded-md'>100</p>
         <p>Place Pour la wilaya D’Alger</p>
@@ -61,12 +89,12 @@ function tirage() {
             </button>
           </div>
           <div className=' p-6'
-            onClick={() => handleChoiceClick('Choice 2')}
+            onClick={() => handleChoiceClick('tranch')}
             style={{
-              background: selectedChoice === 'Choice 2'
+              background: selectedChoice === 'tranch'
                 ? 'linear-gradient(to right, #B49169,#B5AC49)'
                 : '#EBEBEB',
-              color: selectedChoice === 'Choice 2'
+              color: selectedChoice === 'tranch'
                 ? '#fff'
                 : '#000'
             }}>
@@ -88,7 +116,7 @@ function tirage() {
             }}>
             <button
             >
-              Random
+              Combinaison
             </button>
           </div>
 
@@ -98,8 +126,58 @@ function tirage() {
         {selectedChoice && (
           <div>
             {selectedChoice === 'Choice 1' && <div></div>}
-            {selectedChoice === 'Choice 2' && <div>Contenu pour Choice 2</div>}
-            {selectedChoice === 'Choice 3' && <div>Contenu pour Choice 3</div>}
+            {selectedChoice === 'tranch' &&
+              <div className='flex justify-center items-center mx-auto'>
+                <div>
+                  <div className="w-[60%] flex mt-8 mb-4 m-auto">
+                    <div className="flex-1">
+                      <label htmlFor="minAge" className="block text-gray-700 text-sm font-bold mb-2">Min Age</label>
+                      <input
+                        id="minAge"
+                        type="number"
+                        className="input-min w-full outline-none text-center text-lg ml-2 rounded-md border border-gray-300 px-4 py-2"
+                        defaultValue={minAge}
+                        onChange={(e) => setMinAge(parseInt(e.target.value))}
+                      />
+                    </div>
+                    <div className="mx-2">-</div>
+                    <div className="flex-1">
+                      <label htmlFor="maxAge" className="block text-gray-700 text-sm font-bold mb-2">Max Age</label>
+                      <input
+                        id="maxAge"
+                        type="number"
+                        className="w-full outline-none text-center text-lg ml-2 rounded-md border border-gray-300 px-4 py-2"
+                        defaultValue={maxAge}
+                        onChange={(e) => setMaxAge(parseInt(e.target.value))}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-[60%] flex  gap-4 justify-between m-auto">
+                    <div>
+                      <label htmlFor="participantCount" className=" text-gray-700 text-sm font-bold mb-2">Number of Participants</label>
+                      <div className='flex gap-2'>
+                        <input
+                          id="participantCount"
+                          type="number"
+                          className="input-participant w-full outline-none text-center text-lg ml-2 rounded-md border border-gray-300 px-4 py-2"
+                        />
+                        <button onClick={handleConfirmClick} className=" text-white bg-gradient-to-r from-buttonleft to-buttonright px-2 rounded-md">
+                          Confirm
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div>
+                  {intervals.map((interval, index) => (
+                    <div key={index} className="text-center bg-[#FFFBF1] p-4 rounded-md">
+                      <p>{`${interval.min}-${interval.max}: ${interval.count} places`}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>}
+            {selectedChoice === 'Choice 3' && <div></div>}
           </div>
         )}
       </div>
@@ -119,7 +197,6 @@ function tirage() {
           </button>
         </div>
       </div>
-
 
     </div>
   );
