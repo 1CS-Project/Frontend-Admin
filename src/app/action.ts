@@ -179,7 +179,7 @@ export async function getWilayaByName(name:string){
 }
 
 
-type candidatMin={
+export type candidatMin={
     firstname: string,
     lastname: string,
     nationalIdNumber: string,
@@ -310,5 +310,60 @@ export async function getCommuneByName(name:string){
         throw Error("Please try again later")
     }
 
+}
+
+export type FixedConditionsT={
+        minAge:string,
+        lastyear:string,
+        passportYear:string,
+        passportMonth:string
+}
+
+export async function getFixedConditions(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AficheFixedCond`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data as FixedConditionsT;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+
+export async function getNumberOfplaces(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfplaceBaladya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.numberofplace;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
 }
 

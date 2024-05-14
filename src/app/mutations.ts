@@ -1,4 +1,4 @@
-import { candidat, contactUsT } from "./action"
+import { FixedConditionsT, candidat, contactUsT } from "./action"
 
 export async function updateCont(k:contactUsT,token:string){
 
@@ -152,4 +152,23 @@ export async function updateCommuneSend(token:string,k:CommuneMin,baladiya:strin
     } catch (error) {
         throw Error("Something went wrong")
     }
+}
+
+export async function updateFixedConditions(token:string,conditions:FixedConditionsT){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AjouteFixedConditions`,{
+            method:"PUT",
+            body:JSON.stringify({...conditions}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
 }
