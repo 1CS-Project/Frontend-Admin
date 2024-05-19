@@ -49,6 +49,11 @@ function Wilayas({token}:props) {
     return ( 
         <div className="">
         <h1 className="text-2xl font-medium ">Wilaya</h1>
+        <h1 className="px-5 mt-2">
+        
+        Number of used places: <span className="font-medium">{data?.reduce<number>((old,v)=>old+parseInt(v.numberofplace||"0"),0)}</span>
+
+        </h1>
         <div className=" mt-5 mx-4 h-[70vh] overflow-scroll relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

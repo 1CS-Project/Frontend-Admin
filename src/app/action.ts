@@ -259,8 +259,8 @@ export type commune={
     codeC: string,
     baladiya:string,
     baladiaemail?: string,
-    population?: number,
-    numberofplace?: number,
+    population?: string,
+    numberofplace?: string,
     code?: string,
     password?: string
 }
@@ -312,6 +312,9 @@ export async function getCommuneByName(name:string){
 
 }
 
+
+////////////////////////////////////////////////////////////
+
 export type FixedConditionsT={
         minAge:string,
         lastyear:string,
@@ -344,6 +347,37 @@ export async function getFixedConditions(){
 
 
 
+export async function getConditions(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AficheCond`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.result as {id:string,conditionphrase:string}[];
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////
 export async function getNumberOfplaces(){
 
     const token=cookies().get("jwt")?.value;    
@@ -366,4 +400,28 @@ export async function getNumberOfplaces(){
         throw Error("Please try again later")
     }
 }
+
+export async function getNumberOfplacesWilaya(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfplaceWilaya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.numberofplace;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
 

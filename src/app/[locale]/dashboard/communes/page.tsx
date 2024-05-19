@@ -1,4 +1,4 @@
-import { getCommunes, getToken } from "@/app/action";
+import { getCommunes, getNumberOfplacesWilaya, getToken } from "@/app/action";
 import Communes from "@/components/dashboard/communes/communes";
 
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
@@ -11,6 +11,11 @@ async function Page() {
     await queryClient.prefetchQuery({
       queryKey:["communes"],
       queryFn:()=>getCommunes()
+    })  
+    
+    await queryClient.prefetchQuery({
+      queryKey:["nbPlaceWilaya"],
+      queryFn:()=>getNumberOfplacesWilaya()
     })   
     
     return ( 
