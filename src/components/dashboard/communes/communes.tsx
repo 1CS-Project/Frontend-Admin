@@ -1,5 +1,5 @@
 "use client";
-import { commune, getAllWilaya, getCommunes, wilayaT } from "@/app/action";
+import { commune, getAllWilaya, getCommunes, getNumberOfplacesWilaya, wilayaT } from "@/app/action";
 import Arrow from "@/components/icons/arrow";
 import Check from "@/components/icons/check";
 import Vilage from "@/components/icons/vilage";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getQueryClient } from "@/app/providers";
 import { CommuneMin, updateCommuneSend } from "@/app/mutations";
 import Modal from "../wilayas/Modal";
+import DetailsModal from "./detailsModal";
 
 type props={
     token:string
@@ -17,38 +18,26 @@ type props={
 
 function Wilayas({token}:props) {
 
-    function isEqual(d:CommuneMin,dd:commune){
 
-        if (d.numberofplace!==dd.numberofplace?.toString()){
-            return false;
-        }
-        if (d.population!==dd.population?.toString()){
-            return false;
-        }
-        if (d.baladiaemail!==dd.baladiaemail){
-            return false;
-        }
-        return true;
-    }
-    const queryClient=getQueryClient()
     const { data } = useQuery({ queryKey: ['communes'], queryFn: ()=>getCommunes() })
-    const [openedRow,setOpenedRow]=useState<number|undefined>(undefined);
-    const [isDirty,setIsDirty]=useState(false);
+    const { data:nbWilaya } = useQuery({ queryKey: ['nbPlaceWilaya'], queryFn: ()=>getNumberOfplacesWilaya() })
 
-    useEffect(()=>{
-        setIsDirty(false)
-    },[openedRow])
-    // console.log(data);
-    const {mutate,isPending}=useMutation(({
-        mutationFn:({d,baladia}:{d:CommuneMin,baladia:string})=>updateCommuneSend(token,d,baladia),
-        onSuccess:()=>{
-          return queryClient.invalidateQueries({queryKey:['communes']})
-        }
-      }))
-      
+    const [openedRow,setOpenedRow]=useState<number|undefined>(undefined);
+
+    let available=0
+    if (data){
+        available=nbWilaya-data.reduce<number>((old,v)=>old+parseInt(v.numberofplace || "0"),0)
+    }
+    
     return ( 
         <div className="">
         <h1 className="text-2xl font-medium ">Commune</h1>
+        <div className="p-2">
+            <h1>Given number of places: {nbWilaya}</h1>
+            <h1>Still available: {available}</h1>
+
+
+        </div>
         <div className=" mt-5 mx-4 h-[70vh] overflow-scroll relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -102,62 +91,8 @@ function Wilayas({token}:props) {
                           </td>
                          </tr>
                           <Modal key={e.baladiya+"1"} selected={isSelected}>
-                            <form 
-                            onSubmit={(el)=>{
-                                el.preventDefault();
-                                const formData=new FormData(el.currentTarget);
-                                const d:CommuneMin={
-                                    baladiaemail:formData.get("baladiaemail") as string,
-                                    numberofplace:formData.get("numberofplace") as string,
-                                    population:formData.get("population") as string,
-                                }    
-                                mutate({d,baladia:e.baladiya},{
-                                    onSuccess:()=>{
-                                        setIsDirty(false)
-                                        setOpenedRow(undefined)
-                                    }
-                                })
-                            }}
-                            onChange={(el)=>{
-                                const formData=new FormData(el.currentTarget);
-                                const d:CommuneMin={
-                                    baladiaemail:formData.get("baladiaemail") as string,
-                                    numberofplace:formData.get("numberofplace") as string,
-                                    population:formData.get("population") as string,
-                                }  
-
-                                setIsDirty(!isEqual(d,e));
-                                
-                            }}
-                            className="bg-gray-200 slideIn   border-b-2 text-gray-700 font-medium">
-                                <div className="px-5 py-2 flex gap-x-6 flex-wrap">
-                                    <div>
-                                        <h1 className="my-2">Nassama</h1>
-                                        <input name="population" defaultValue={e.population} className="rounded-lg h-10"  type="number" required/>
-                                    </div>
-                                    <div>
-                                        <h1 className="my-2">Number of places</h1>
-                                        <input name="numberofplace" defaultValue={e.numberofplace} className="rounded-lg h-10"  type="number" required/>
-                                    </div>                                
-                                    <div>
-                                        <h1 className="my-2">Email</h1>
-                                        <input name="baladiaemail" defaultValue={e.baladiaemail} className="rounded-lg h-10"  type="email" required/>
-                                    </div>
-                                </div>
-                                <div className="">
-                                <button
-                                  disabled={!isDirty || isPending}
-                                  type="submit"
-                                  className="mt-6 mr-2 ml-auto flex gap-1 justify-center w-fit bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400">
-                                    <Check/>
-                                    {isPending?"Loading...":'Confirm&Send'}
-                                </button>
-
-                                </div>
-                            </form>
+                                      <DetailsModal available={available} token={token} e={e} setOpenedRow={setOpenedRow} />
                           </Modal>
-
-
                         </>
                     )})}
                 </tbody>

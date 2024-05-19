@@ -1,6 +1,6 @@
 import DynamicConditions from '@/components/dashboard/conditions/dynamicConditions';
 import FixedConditions from '@/components/dashboard/conditions/fixedConditions';
-import { getCommunes, getFixedConditions, getToken } from "@/app/action";
+import { getCommunes, getConditions, getFixedConditions, getToken } from "@/app/action";
 import Communes from "@/components/dashboard/communes/communes";
 
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
@@ -41,6 +41,11 @@ const Page =async  () => {
   await queryClient.prefetchQuery({
     queryKey:["fixedConditions"],
     queryFn:()=>getFixedConditions()
+  })   
+
+  await queryClient.prefetchQuery({
+    queryKey:["conditions"],
+    queryFn:()=>getConditions()
   })     
   
   return (
@@ -48,7 +53,7 @@ const Page =async  () => {
       <p className="text-2xl font-semibold">The conditions</p>
       <HydrationBoundary state={dehydrate(queryClient)}>
           <FixedConditions token={token!}/>
-          <DynamicConditions/>
+          <DynamicConditions token={token!}/>
       </HydrationBoundary>
     </div>
   );
