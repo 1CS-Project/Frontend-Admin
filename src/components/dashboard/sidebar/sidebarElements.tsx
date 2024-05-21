@@ -29,6 +29,11 @@ export let wilayaElements:sideBar[]=[
         link:"/communes",
         icon:<Vilage/>
     },
+    {
+      name:"Hospital - Bank",
+      link:"/hopbank",
+      icon:<Vilage/>
+  },
 ]
 
 export let communeElements=[

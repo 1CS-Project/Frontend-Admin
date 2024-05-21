@@ -134,7 +134,7 @@ function page() {
                 </th>
                 <td className="px-6 py-4">{item.fullName}</td>
                 <td className="py-4">
-                  <Link href={"/" + locale + "/doctor/consult"}>
+                  <Link href={"/" + locale + "/doctor/infoPrel"}>
                     <button type="submit" className=" bg-[#0A84E6] px-4 py-2 text-white font-medium rounded-lg">
                       Consult
                     </button>

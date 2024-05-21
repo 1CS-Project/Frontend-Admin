@@ -6,6 +6,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/flowbite/**/*.js",
+    'node_modules/preline/dist/*.js',
   ],
   theme: {
     extend: {
@@ -24,7 +25,7 @@ const config: Config = {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),require('preline/plugin')
   ],
 };
 export default config;
