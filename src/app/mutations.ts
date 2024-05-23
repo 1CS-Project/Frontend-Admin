@@ -232,3 +232,27 @@ export async function updCondition(token:string,id:string,conditionphrase:string
         throw Error("Something went wrong")
     }   
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+export async function updateTimer(token:string,startDate?:string,endDate?:string){
+    try {
+        if (!startDate || !endDate){
+            throw Error("Missing Data")
+        }
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/timer/set-timer`,{
+            method:"PUT",
+            body:JSON.stringify({startDate,endDate}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}

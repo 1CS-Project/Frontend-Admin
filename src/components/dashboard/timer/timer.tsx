@@ -1,14 +1,57 @@
 'use client'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getTimer } from "@/app/action";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { updateTimer } from "@/app/mutations";
+import { getQueryClient } from "@/app/providers";
+
+type props={
+  token:string,
+}
 
 
-const Timer = () => {
 
-  const [date, setDate] = useState<Date>(new Date());
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+const Timer = ({token}:props) => {
+
+  const queryClient=getQueryClient()
+  const { data } = useQuery({ queryKey: ['timer'], queryFn: ()=>getTimer() });
+  
+  const [startDate, setStartDate] = useState<Date | undefined>(data?.startDate);
+  const [endDate, setEndDate] = useState<Date | undefined>(data?.endDate);
+  const [isInvalid,setInvalid]=useState(false);
+
+  const isDirty=(startDate?.toJSON()!=data?.startDate.toJSON())||(endDate?.toJSON()!==data?.endDate.toJSON())
+  
+
+  useEffect(()=>{
+
+    if (startDate && endDate){
+      if (startDate>endDate){
+        setInvalid(true);
+      }else{
+        setInvalid(false);
+      }
+    }else{
+      setInvalid(false);
+    }
+  },[startDate,endDate])
+
+  useEffect(()=>{
+    setStartDate(data?.startDate);
+    setEndDate(data?.endDate);
+  },[data])
+
+  
+  const {mutate,isPending}=useMutation(({
+    mutationFn:()=>updateTimer(token,startDate?.toJSON(),endDate?.toJSON()),
+    onSuccess:()=>{
+      return queryClient.invalidateQueries({queryKey:['timer']})
+    }
+  }))
+
+
   return (
     <div className="">
       <p className=" text-2xl font-semibold mt-10">Timer</p>
@@ -41,8 +84,10 @@ const Timer = () => {
         />
       </div>
       <div className="w-full">
-        <button className="mx-auto w-1/2 mt-6 p-3 flex items-center justify-center text-white bg-gradient-to-r from-buttonleft to-buttonright px-2 rounded-md">
-          Confirm
+        <button disabled={isPending||!isDirty||isInvalid} onClick={()=>{
+          mutate()
+        }} className="mx-auto w-1/2 mt-6 p-3 flex disabled:from-slate-400 disabled:to-slate-500 items-center justify-center text-white bg-gradient-to-r from-buttonleft to-buttonright px-2 rounded-md">
+          {isPending?"Loading...":"Confirm"}
         </button>
       </div>
 
