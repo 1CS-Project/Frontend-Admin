@@ -391,7 +391,7 @@ export async function getNumberOfplaces(){
         
         if (res.ok){
             let data=await res.json()
-            return data.numberofplace;
+            return data.numberofplace as number;
         }else {
             throw Error("Something went wrong")
         }
@@ -423,5 +423,167 @@ export async function getNumberOfplacesWilaya(){
         throw Error("Please try again later")
     }
 }
+
+
+/////////////////////////////////////////////////////////////////////
+
+type timer={
+    startDate:string,
+    endDate:string
+}
+
+
+export async function getTimer(){
+
+    // const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/timer/get-timer`);
+        
+        if (res.ok){
+            let data=await res.json() as timer;
+            return {
+                startDate:new Date(data.startDate),
+                endDate:new Date(data.endDate)
+            };  
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+
+export type tirageInfo={
+    baladia:string,
+    method:"Random"|"Par_Age",
+    info:string
+}
+
+////////////////////////////////////////////
+
+
+export async function getTirageInfo(){
+
+    const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getTirageInfo`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data.info as tirageInfo | undefined;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getWinners(baladia:string){
+
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getWinners?baladia=${baladia}`);
+        
+        if (res.ok){
+            let data=await res.json();
+            console.log(data);
+            
+            return data.winners as {firstname:string,lastname:string}[];
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+    
+export async function getMinMaxYear(){
+
+    const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getMinMaxAge`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data as {minYear:number,maxYear:number} | undefined;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getNumberOfPlacesByInterval(minAge:string,maxAge:string){
+
+    const token=cookies().get("jwt")?.value; 
+    
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfParticipantByInterval?minAge=${minAge}&maxAge=${maxAge}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data.count as number;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
 
 

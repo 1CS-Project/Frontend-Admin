@@ -95,11 +95,18 @@ function DetailsModal({token,e,setOpenedRow,available}:props) {
                         <input name="baladiaemail" defaultValue={e.baladiaemail} className="rounded-lg h-10"  type="email" required/>
                     </div>
                 </div>
-                    <div className="">
+                    <div className="flex justify-end gap-x-2 px-2">
+                        <button
+                          disabled={isPending}
+                          type="submit"
+                          className="mt-6 flex gap-1 justify-center w-fit bg-[#0e64a1] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400">
+                            {/* <Check/> */}
+                            {isPending?"Loading...":'Send an Email'}
+                        </button>
                         <button
                           disabled={!isDirty || isPending}
                           type="submit"
-                          className="mt-6 mr-2 ml-auto flex gap-1 justify-center w-fit bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400">
+                          className="mt-6  flex gap-1 justify-center w-fit bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400">
                             <Check/>
                             {isPending?"Loading...":'Confirm&Send'}
                         </button>
