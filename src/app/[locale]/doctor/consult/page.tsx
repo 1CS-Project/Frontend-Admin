@@ -233,7 +233,7 @@ const page = () => {
           placeholder="Enter your note..."
           rows={5}
         />
-        <div className="mt-4 flex gap-4 justify-center items-center">
+        <div className="my-4 flex gap-4 justify-center items-center">
           <button type="submit" className=" w-[25%] flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
             Refuse participant
           </button>
