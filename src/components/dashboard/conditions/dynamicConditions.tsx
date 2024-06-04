@@ -1,31 +1,81 @@
-function DynamicConditions() {
+'use client';
 
-    const textList:string[]=["hello"]
+import { getConditions } from "@/app/action";
+import { delCondition, insertCondition, updCondition } from "@/app/mutations";
+import { getQueryClient } from "@/app/providers";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+type props={
+  token:string
+}
+
+
+
+function DynamicConditions({token}:props) {
+    const queryClient=getQueryClient();
+    const handleModifyText = (id: string,old:string) => {
+    const newText = prompt('Enter the new conditons:',old)?.trim();
+    if (newText && newText!=old) {
+      updateCond({id,condition:newText})
+    }
+  };
+
+    const {mutate,isPending}=useMutation({
+      mutationFn:(d:string)=>insertCondition(token,d),
+      onSuccess:()=>{
+        console.log("success");
+        return queryClient.invalidateQueries({queryKey:["conditions"]});
+      
+      }
+    })
+
+    const {mutate:deleteCond}=useMutation({
+      mutationFn:(d:string)=>delCondition(token,d),
+      onSuccess:()=>{
+        console.log("success");
+        return queryClient.invalidateQueries({queryKey:["conditions"]});
+      }
+    })
+
+    const {mutate:updateCond}=useMutation({
+      mutationFn:(d:{id:string,condition:string})=>updCondition(token,d.id,d.condition),
+      onSuccess:()=>{
+        console.log("success");
+        return queryClient.invalidateQueries({queryKey:["conditions"]});
+      }
+    })
+
+    const { data:conds } = useQuery({ queryKey: ['conditions'], queryFn: ()=>getConditions() })
+  
+ 
     return ( 
     <>
-        <div className="relative flex w-full mt-4">
+      <form onSubmit={(e)=>{
+        e.preventDefault();
+        const formData=new FormData(e.currentTarget);
+        const condition=formData.get("condition");
+        if (condition){
+          mutate(condition.toString().trim())
+        }
+      }} className="relative flex w-full mt-4">
         <input
           type="text"
+          name="condition"
+          pattern=".*\S+.*"
+          required
           className="bg-gray-200 border border-gray-300 rounded-md p-4 w-full"
-          placeholder="Write the new condition"
-        //   value={inputText}
-        //   onChange={handleInputChange}
-        />
-        <button
-          className="absolute inset-y-0 right-0 px-4 py-2 bg-black font-medium text-white rounded-r-md"
-        //   onClick={handleAddText}
-        >
-
-          Add
+          placeholder="Write the new condition"/>
+        <button disabled={isPending} type="submit" className="absolute inset-y-0 right-0 px-4 py-2 bg-black font-medium text-white rounded-r-md">
+          {isPending?"Loading...":"Add"}
         </button>
-      </div>
+      </form>
       <div className="mt-4 bg-gray-100 py-4 px-4  rounded-lg">
-        {textList.map((text, index) => (
-          <div key={index} className="flex items-center justify-between border-b border-gray-200 py-2">
-            <div>{text}</div>
+        {conds?.map((data) => (
+          <div key={data.id} className="flex items-center justify-between border-b border-gray-200 py-2">
+            <div>{data.conditionphrase}</div>
             <div className='flex justify-center items-center gap-2'>
               <button 
-            //   onClick={() => handleModifyText(index)}
+              onClick={() => handleModifyText(data.id,data.conditionphrase)}
                type="submit" className="flex justify-center items-center gap-1 bg-[#13A10E] px-4 py-2 text-white font-medium rounded-lg">
                 <svg
                   width={18}
@@ -47,37 +97,37 @@ function DynamicConditions() {
               </button>
 
               <button 
-            //   onClick={() => handleDeleteText(index)} 
-              type="submit" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
-                <svg
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clipPath="url(#clip0_931_238)">
-                    <path
-                      d="M18 6L6 18"
-                      stroke="#F5F5F5"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M6 6L18 18"
-                      stroke="#F5F5F5"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_931_238">
-                      <rect width={24} height={24} fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+                onClick={()=>deleteCond(data.id)}
+                type="submit" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
+                  <svg
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_931_238)">
+                      <path
+                        d="M18 6L6 18"
+                        stroke="#F5F5F5"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6 6L18 18"
+                        stroke="#F5F5F5"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_931_238">
+                        <rect width={24} height={24} fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
 
 
                 Delete

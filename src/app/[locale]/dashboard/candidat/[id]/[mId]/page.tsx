@@ -1,5 +1,5 @@
 
-import { getCandidatById, getToken, getWilayaById } from "@/app/action";
+import { getCandidatById, getToken } from "@/app/action";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";

@@ -179,7 +179,7 @@ export async function getWilayaByName(name:string){
 }
 
 
-type candidatMin={
+export type candidatMin={
     firstname: string,
     lastname: string,
     nationalIdNumber: string,
@@ -259,8 +259,8 @@ export type commune={
     codeC: string,
     baladiya:string,
     baladiaemail?: string,
-    population?: number,
-    numberofplace?: number,
+    population?: string,
+    numberofplace?: string,
     code?: string,
     password?: string
 }
@@ -311,4 +311,279 @@ export async function getCommuneByName(name:string){
     }
 
 }
+
+
+////////////////////////////////////////////////////////////
+
+export type FixedConditionsT={
+        minAge:string,
+        lastyear:string,
+        passportYear:string,
+        passportMonth:string
+}
+
+export async function getFixedConditions(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AficheFixedCond`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data as FixedConditionsT;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+
+export async function getConditions(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AficheCond`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.result as {id:string,conditionphrase:string}[];
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////
+export async function getNumberOfplaces(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfplaceBaladya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.numberofplace as number;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getNumberOfplacesWilaya(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfplaceWilaya`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            return data.numberofplace;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+type timer={
+    startDate:string,
+    endDate:string
+}
+
+
+export async function getTimer(){
+
+    // const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/timer/get-timer`);
+        
+        if (res.ok){
+            let data=await res.json() as timer;
+            return {
+                startDate:new Date(data.startDate),
+                endDate:new Date(data.endDate)
+            };  
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+
+export type tirageInfo={
+    baladia:string,
+    method:"Random"|"Par_Age",
+    info:string
+}
+
+////////////////////////////////////////////
+
+
+export async function getTirageInfo(){
+
+    const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getTirageInfo`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data.info as tirageInfo | undefined;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getWinners(baladia:string){
+
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getWinners?baladia=${baladia}`);
+        
+        if (res.ok){
+            let data=await res.json();
+            console.log(data);
+            
+            return data.winners as {firstname:string,lastname:string}[];
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+    
+export async function getMinMaxYear(){
+
+    const token=cookies().get("jwt")?.value; 
+       
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getMinMaxAge`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data as {minYear:number,maxYear:number} | undefined;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getNumberOfPlacesByInterval(minAge:string,maxAge:string){
+
+    const token=cookies().get("jwt")?.value; 
+    
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getNumberOfParticipantByInterval?minAge=${minAge}&maxAge=${maxAge}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json();
+            return data.count as number;
+            
+        }else {
+            console.log(await res.json());
+            
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+        throw Error("Please try again later")
+    }
+}
+
+
 

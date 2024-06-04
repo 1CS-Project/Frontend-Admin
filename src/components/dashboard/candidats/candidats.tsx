@@ -112,8 +112,8 @@ function Candidats({locale,token}:props) {
                   }}
                   type="button" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
                     <svg
-                      width={24}
-                      height={24}
+                      width={18}
+                      height={18}
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"

@@ -1,10 +1,8 @@
-import { getCommunes, getToken } from "@/app/action";
+import { getCommunes, getNumberOfplacesWilaya, getToken } from "@/app/action";
 import Communes from "@/components/dashboard/communes/communes";
-import Check from "@/components/icons/check";
-import Vilage from "@/components/icons/vilage";
+
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
-import Link from "next/link";
 
 async function Page() {
     const locale = useLocale();
@@ -13,6 +11,11 @@ async function Page() {
     await queryClient.prefetchQuery({
       queryKey:["communes"],
       queryFn:()=>getCommunes()
+    })  
+    
+    await queryClient.prefetchQuery({
+      queryKey:["nbPlaceWilaya"],
+      queryFn:()=>getNumberOfplacesWilaya()
     })   
     
     return ( 

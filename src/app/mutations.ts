@@ -1,4 +1,4 @@
-import { candidat, contactUsT } from "./action"
+import { FixedConditionsT, candidat, contactUsT } from "./action"
 
 export async function updateCont(k:contactUsT,token:string){
 
@@ -152,4 +152,107 @@ export async function updateCommuneSend(token:string,k:CommuneMin,baladiya:strin
     } catch (error) {
         throw Error("Something went wrong")
     }
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+export async function updateFixedConditions(token:string,conditions:FixedConditionsT){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AjouteFixedConditions`,{
+            method:"PUT",
+            body:JSON.stringify({...conditions}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+export async function insertCondition(token:string,condition:string){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AjouteConditionphrase`,{
+            method:"POST",
+            body:JSON.stringify({conditionphrase:condition}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+export async function delCondition(token:string,id:string){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/SuppConditionPhrase?id=${id}`,{
+            method:"DELETE",
+            headers:{
+                "Authorization":`Bearer ${token}`,
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+
+export async function updCondition(token:string,id:string,conditionphrase:string){
+    try {
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/UpdateConditionPhrase`,{
+            method:"PUT",
+            body:JSON.stringify({conditionphrase,id}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+export async function updateTimer(token:string,startDate?:string,endDate?:string){
+    try {
+        if (!startDate || !endDate){
+            throw Error("Missing Data")
+        }
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/timer/set-timer`,{
+            method:"PUT",
+            body:JSON.stringify({startDate,endDate}),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
 }

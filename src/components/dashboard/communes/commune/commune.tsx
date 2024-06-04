@@ -36,16 +36,16 @@ function Commune({token}:props) {
     let [showPass,setShowPass]=useState(false);
     let [isDirty,setIsDirty]=useState(false);
 
-    if (!baladia){
-        return <div>
-            Error
-        </div>
-    }
+    // if (!baladia){
+    //     return <div>
+    //         Error
+    //     </div>
+    // }
 
-    const { data,error } = useQuery({ queryKey: ['communes',baladia], queryFn: ()=>getCommuneByName(baladia) })
+    const { data,error } = useQuery({ queryKey: ['communes',baladia], queryFn: ()=>getCommuneByName(baladia!) })
     
     const {mutate,isPending}=useMutation(({
-        mutationFn:(d:CommuneMin)=>updateCommune(token,d,baladia),
+        mutationFn:(d:CommuneMin)=>updateCommune(token,d,baladia!),
         onSuccess:()=>{
           return queryClient.invalidateQueries({queryKey:['communes']})
         }
