@@ -186,11 +186,13 @@ export type candidatMin={
         uncount?:number
     }
     
-    export async function getCandidatsByPlace(){
+    export async function getCandidatsByPlace(name?:string){
         const token=cookies().get("jwt")?.value;    
 
+        console.log(name);
+        
         try {
-            let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1`,{
+            let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/candidat/candidiates-by-place?limit=10&offset=1&name=${name?name:""}`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
@@ -242,8 +244,9 @@ export async function getCandidatById(id:string){
         });
         
         if (res.ok){
-            let data=await res.json()
-            return data as candidat
+            let data=await res.json() as candidat;
+            
+            return {...data,dateOfBirth:data.dateOfBirth.slice(0,10)} as candidat
         }else {
             throw Error("Something went wrong")
         }
@@ -508,7 +511,6 @@ export async function getWinners(baladia:string){
         
         if (res.ok){
             let data=await res.json();
-            console.log(data);
             
             return data.winners as {firstname:string,lastname:string}[];
             

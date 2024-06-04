@@ -13,6 +13,7 @@ import { updateCandidat } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
 import { useRouter } from "next/navigation";
 import Check from "@/components/icons/check";
+import { useEffect } from "react";
 
 type props={
   token:string
@@ -35,8 +36,8 @@ function ModifyProfil({token}:props) {
   }))
   const t= useTranslations("tirageForm")
   const TirageRegSchema=TirageRegSchemaF(t);
-
-  const {register,handleSubmit,formState:{errors,isDirty},setError,reset} =useForm<tirageRegT>({resolver:zodResolver(TirageRegSchema),shouldUnregister:true,defaultValues:{
+  
+  const {register,handleSubmit,formState:{errors,isDirty},reset} =useForm<tirageRegT>({resolver:zodResolver(TirageRegSchema),shouldUnregister:true,defaultValues:{
     firstname:data?.firstname,
     birthCerteficateNumber:data?.birthCerteficateNumber,
     city:data?.city,
@@ -51,16 +52,18 @@ function ModifyProfil({token}:props) {
     state:data?.state 
   }})  
   
+
+
   return (
     <div className="mr-14 ">
-        <Image
+        <img
           height={70}
           width={70}
           className="rounded-full max-w-full mx-auto "
-          src="/image/pr.jpg"
+          src={`${process.env.NEXT_PUBLIC_BACKEND}/${data?.imageUrl}`}
           alt="image"
         />
-        <input type="text" {...register("imageUrl")} />
+        <input className="hidden" type="text" {...register("imageUrl")} />
 
         <div className={"mt-10 w-full"}>
         <form id="form1" onSubmit={handleSubmit((d)=>{                  

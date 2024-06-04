@@ -4,12 +4,16 @@ import { Socket, io } from "socket.io-client";
 
 
 type props={
-    data:candidatMin[]
+    data:candidatMin[],
+    user:{
+      name:string,
+      role:"WIZARA"|"BALADIA"|"WILLAYA"
+    },
 }
 
 let socket:Socket;
 
-function RandomSelection({data}:props) {
+function RandomSelection({data,user}:props) {
 
     let [winners,setWinners]=useState<string[]>([]);
 
@@ -67,8 +71,8 @@ function RandomSelection({data}:props) {
         </div>
         <div className=' flex justify-center items-center gap-4 mt-4'>
           <button disabled={started || done} onClick={()=>{
-              // socket.emit("Button_submit",user.name)
-              // setStarted(true)
+              socket.emit("Button_submit",user.name)
+              setStarted(true)
           }} id="startBtn" type="submit" className={`w-full ${!started?"bg-[#13A10E] cursor-pointer":"bg-gray-400 cursor-not-allowed"} px-4 py-2 text-white font-medium rounded-lg`}>
             {done?"Done":"Start"}
           </button>
