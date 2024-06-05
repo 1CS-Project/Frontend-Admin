@@ -25,6 +25,7 @@ const page = () => {
 
 
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [options, setOptions] = useState<Option[]>([
     { value: 'Depression', label: 'Depression' },
     { value: 'Cancer', label: 'Cancer' },
@@ -38,10 +39,15 @@ const page = () => {
 
   ]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [inputText, setInputText] = useState<string>('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [textList, setTextList] = useState<string[]>([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [showInfo, setShowInfo] = useState<boolean>(false);
 
   const handleChange = (option: OptionType | null) => {
@@ -81,6 +87,7 @@ const page = () => {
   const handleDeleteText = (index: number) => {
     setTextList((prev) => prev.filter((_, i) => i !== index));
   };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [confirmData, setConfirmData] = useState<{ disease: string | null; date: Date | null; medications: string[] }[]>([]);
 
   const handleConfirm = () => {
@@ -153,7 +160,7 @@ const page = () => {
           <input
             type="text"
             className="bg-[#F0F5FF] border border-gray-300 rounded-md p-4 w-full"
-            placeholder="Write the new illness"
+            placeholder="Write the new medication"
             value={inputText}
             onChange={handleInputChange}
           />

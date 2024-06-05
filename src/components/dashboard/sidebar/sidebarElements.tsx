@@ -5,6 +5,7 @@ import Home from "@/components/icons/home"
 import Timer from "@/components/icons/timer"
 import Tirage from "@/components/icons/tirage"
 import Vilage from "@/components/icons/vilage"
+import Flight from "@/components/icons/flight"
 
 type sideBar={
     name:string,
@@ -44,11 +45,7 @@ export let wilayaElements:sideBar[]=[
   link:"/allbanks",
   icon:<Vilage/>
 },
-{
-  name:"Flights",
-  link:"/flights",
-  icon:<Vilage/>
-},
+
 ]
 
 export let communeElements=[
@@ -99,6 +96,11 @@ export let adminElements:sideBar[]=[
         name:"Wilaya",
         link:"/wilayas",
         icon:<Vilage/>
+    },
+    {
+      name:"Flights",
+      link:"/flights",
+      icon:<Flight/>
     },
     {
         name:"Contact us",
