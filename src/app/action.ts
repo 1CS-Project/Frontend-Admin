@@ -60,12 +60,13 @@ export async function getUserData(){
                 "Authorization":`Bearer ${token}`
             }
         })
+        
         if (!res.ok){
             return undefined;
         }
         const data=await res.json();
         
-        return {name:data.name,role:data.role};
+        return {name:data.name,role:data.role} as {name:string ,role:"WILAYA" | "BALADIA" | "WIZARA" | "HOSPITAL"|"BANK"};
     } catch (error) {
         return undefined;
     }
@@ -588,4 +589,152 @@ export async function getNumberOfPlacesByInterval(minAge:string,maxAge:string){
 }
 
 
+type hospital={
+    id:string,
+    Wilaya:string 
+    nameCenter:string,
+    emailCenter:string,
+    dateDebut:string,
+    dateFin:string,
+    BaladiaLocation:string,
+    
+}
 
+
+
+export async function getHospitals(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GetCentre`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            console.log(data);
+            
+            return data.message as hospital[];
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getHospitalById(id:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GetCentre/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            console.log(data);
+            
+            return data.message as hospital;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+
+
+export async function getHospitalCandidats(name?:string){
+    const token=cookies().get("jwt")?.value;    
+
+    
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/examination/get-candidats?name=${name?name:""}`,{
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+    });
+
+    type k=candidatMin & {status:'accepted'|'rejected'}
+
+    
+    if (res.ok){
+        let data=await res.json()
+        if (!data){
+            data=[]
+        }
+        return data as k[]
+    }else {
+        throw Error("Something went wrong")
+    }
+    
+} catch (error) {
+    throw Error("Please try again later")
+}
+}
+
+
+
+
+export async function getCommunesList(){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getBaladiasNames`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            const re=data.result as {baladiya:string}[];
+            return re.map(e=>e.baladiya) 
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getCandidateExaminationStatus(id:string){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/examination/get-examination-status/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        type k=candidatMin&{status?:"accepted"|"rejected",imageUrl:string,dateOfBirth:string}
+        if (res.ok){
+            let data=(await res.json()) as k|undefined
+
+            console.log(data);
+            
+            // const re=data.result as {baladiya:string}[];
+            return data;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}

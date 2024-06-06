@@ -2,6 +2,7 @@ import User from "@/components/icons/User"
 import Condition from "@/components/icons/condition"
 import Contact from "@/components/icons/contact"
 import Home from "@/components/icons/home"
+import Hospital from "@/components/icons/hospital"
 import Timer from "@/components/icons/timer"
 import Tirage from "@/components/icons/tirage"
 import Vilage from "@/components/icons/vilage"
@@ -30,10 +31,25 @@ export let wilayaElements:sideBar[]=[
         icon:<Vilage/>
     },
     {
-      name:"Hospital - Bank",
+      name:"New Hospital - Bank",
       link:"/hopbank",
       icon:<Vilage/>
   },
+  {
+    name:"Hospitals",
+    link:"/hospitals",
+    icon:<Hospital/>
+},
+{
+  name:"All Bank",
+  link:"/allbanks",
+  icon:<Vilage/>
+},
+{
+  name:"Flights",
+  link:"/flights",
+  icon:<Vilage/>
+},
 ]
 
 export let communeElements=[

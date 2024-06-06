@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image"
 import Link from "next/link"
 import RegInputs from "./TirageReg/RegInputs";
 import { useForm } from "react-hook-form";
@@ -11,9 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { updateCandidat } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
-import { useRouter } from "next/navigation";
 import Check from "@/components/icons/check";
-import { useEffect } from "react";
 
 type props={
   token:string

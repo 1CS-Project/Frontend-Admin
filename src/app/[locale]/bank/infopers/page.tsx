@@ -8,7 +8,7 @@ function page() {
 
   return (
     <div className="py-6 px-14  ">
-        <Link href={"/" + locale + "/doctor/"} className="flex items-center ">
+        <Link href={"/" + locale + "/bank/"} className="flex items-center ">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 ">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
           </svg>
@@ -140,36 +140,14 @@ function page() {
 
 
         </div>
-      <Link href={"/" + locale + "/doctor/consult"}>
-          <button
-            type="submit"
-            className="mt-6 flex gap-1 justify-center w-full bg-[#0A84E6] px-4 py-2 text-white font-medium rounded-lg disabled:bg-gray-400"
-          >
-            <svg
-              width={24}
-              height={24}
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clipPath="url(#clip0_1004_1940)">
-                <path
-                  d="M5 12L10 17L20 7"
-                  stroke="#F5F5F5"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_1004_1940">
-                  <rect width={24} height={24} fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-            Consult
+        <div className="my-4 flex gap-4 justify-center items-center">
+          <button type="submit" className=" w-[25%] flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
+            Didn&apos;t Paid
           </button>
-      </Link>
+          <button type="submit" className="w-[25%] flex justify-center items-center gap-1 bg-[#0E8EF4] px-4 py-2 text-white font-medium rounded-lg">
+          Paid
+          </button>
+        </div>
       </form>
 
 

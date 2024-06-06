@@ -10,7 +10,7 @@ async function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex w-full">
       <div className="w-16 sm:w-64">
         <NextIntlClientProvider>
-          <Sidebar role={user?.role}/>
+          <Sidebar role={user?.role!}/>
         </NextIntlClientProvider>
       </div>
       <div className="flex-1">

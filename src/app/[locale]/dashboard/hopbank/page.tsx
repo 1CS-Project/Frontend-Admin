@@ -56,7 +56,7 @@ const Page: React.FC = () => {
       </div>
       {selectedButton === 'Hospital' && (
         <div className="mt-4 p-4 bg-white border border-gray-300 rounded-md shadow-sm">
-          <p className="text-xl font-medium mt-6 underline ">Hospital Information</p>
+          <p className="text-xl font-medium underline ">Hospital Information</p>
           <label className="block text-sm font-medium text-gray-700 mt-6">
             Hospital Name
             <input
@@ -77,7 +77,7 @@ const Page: React.FC = () => {
           </label>
 
           <label className="block text-sm font-medium text-gray-700 mt-4">
-            Select Wilayas
+            Select Communes
             <Select
             required
               isMulti
@@ -112,7 +112,7 @@ const Page: React.FC = () => {
           </label>
 
           <label className="block text-sm font-medium text-gray-700 mt-4">
-            Select Wilayas
+            Select Communes
             <Select
             required
               isMulti
