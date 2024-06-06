@@ -46,7 +46,7 @@ function CandidatValidation({token}:props) {
   const {mutate,isPending}=useMutation(({
     mutationFn:(d:ExaminateCandidatT)=>examinateCandidat(token,d),
     onSuccess:()=>{
-      return queryClient.invalidateQueries({queryKey:['hos_candidats',id]})
+      return queryClient.invalidateQueries({queryKey:['hos_candidats']})
     }
   }))
   const { data } = useQuery({ queryKey: ['hos_candidats',id], queryFn: ()=>getCandidateExaminationStatus(id as string) })

@@ -266,13 +266,42 @@ export type HospitalT={
 }
 
 
-
 export async function addHospital(token:string,hospital:HospitalT){
     try {
 
         const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/WilayaCreeCentreMedical`,{
             method:"POST",
             body:JSON.stringify(hospital),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {updated:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+
+export type BankT={
+    BanqueName:string,
+    BanqueEmail:string,
+    DateDebut:string,
+    DateFin:string,
+    BaldyaSelect:string
+}
+
+
+export async function addBank(token:string,bank:BankT){
+    try {
+
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/BanqueWilayaCree`,{
+            method:"POST",
+            body:JSON.stringify(bank),
             headers:{
                 "Authorization":`Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -318,3 +347,43 @@ export async function examinateCandidat(token:string,candidat:ExaminateCandidatT
     }   
 }
 
+
+export async function setPaymentStatus(token:string,candidat:{nationalIdNumber:string,status:string}){
+    try {
+        
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/Payed`,{
+            method:"POST",
+            body:JSON.stringify(candidat),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {added:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}
+
+export async function addFlight(token:string,flight:Record<string,string>){
+    try {
+        
+        const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AjouterVolParWizara`,{
+            method:"POST",
+            body:JSON.stringify(flight),
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        if (res.ok){
+            return {added:true}
+        }
+        throw Error("Please try again later")
+    } catch (error) {
+        throw Error("Something went wrong")
+    }   
+}

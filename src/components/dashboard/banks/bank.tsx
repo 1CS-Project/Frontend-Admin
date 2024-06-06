@@ -1,25 +1,25 @@
 "use client";
 
-import { getHospitalById } from "@/app/action";
-import Hospital2 from "@/components/icons/hospital2";
+import { getBankById } from "@/app/action";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import BankIcon from "@/components/icons/bank";
 
-function Hospital() {
+function Bank() {
 
 
     let {id}=useParams();
-    let { data } = useQuery({ queryKey: ['hospitals',id],queryFn: ()=>getHospitalById(id as string) })
+    let { data } = useQuery({ queryKey: ['banks',id],queryFn: ()=>getBankById(id as string) })
 
     return ( 
     <div className='p-4'>
-        <p className="font-semibold text-blue-500 flex items-center gap-2 text-xl mt-4">
-          <Hospital2/>
-          {data?.nameCenter}
+        <p className="font-semibold text-[#469f78] flex items-center gap-2 text-xl mt-4">
+          <BankIcon/>
+          {data?.BanqueName}
         </p>
     <div className="p-4 ">
         <div>
-          <h1 className='text-lg font-semibold underline'>Baladyas affiliated to this hospital</h1>
+          <h1 className='text-lg font-semibold underline'>Baladyas affiliated to this Bank</h1>
           <h1>{data?.BaladiaLocation}</h1>
         </div>
         <div className="mt-4 py-4 gap-2 flex justify-center items-center">
@@ -27,7 +27,7 @@ function Hospital() {
             <div className="space-y-4 w-1/2">
               <div className="w-full" >
                   <h1 className="mb-2 text-sm font-semibold dark:text-white">Email</h1>
-                  <input disabled name="baladiaemail" defaultValue={data?.emailCenter} type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-black/60 focus:outline-none focus:ring-0 block w-full  p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required/> 
+                  <input disabled name="baladiaemail" defaultValue={data?.BanqueEmail} type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-black/60 focus:outline-none focus:ring-0 block w-full  p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required/> 
               </div>
               <div className="w-full" >
                   <h1 className="mb-2 text-sm font-semibold dark:text-white">From</h1>
@@ -46,4 +46,4 @@ function Hospital() {
     );
 }
 
-export default Hospital;
+export default Bank;
