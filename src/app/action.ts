@@ -626,6 +626,39 @@ export async function getHospitals(){
     }
 }
 
+export type bank={
+    id:string
+    Wilaya:string,
+    BanqueName:string,
+    BanqueEmail:string,
+    dateDebut:string,
+    dateFin:string,
+    BaladiaLocation:string
+}
+
+export async function getBanks(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GetBanque`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            
+            return data.message as bank[];
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
 
 export async function getHospitalById(id:string){
     const token=cookies().get("jwt")?.value;    
@@ -651,6 +684,30 @@ export async function getHospitalById(id:string){
     }
 }
 
+
+export async function getBankById(id:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GetBanque/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            console.log(data);
+            
+            return data.message as bank;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
 
 
 
@@ -682,6 +739,41 @@ export async function getHospitalCandidats(name?:string){
     throw Error("Please try again later")
 }
 }
+
+
+
+
+export async function getBankCandidats(name?:string){
+    const token=cookies().get("jwt")?.value;    
+
+    
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AficheUserInBanque?name=${name?name:""}`,{
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+    });
+
+    type k=candidatMin & {status:'accepted'|'rejected'}
+
+    
+    if (res.ok){
+        let data=await res.json()
+        console.log(data);
+        
+        if (!data){
+            data=[]
+        }
+        return data as k[]
+    }else {
+        throw Error("Something went wrong")
+    }
+    
+} catch (error) {
+    throw Error("Please try again later")
+}
+}
+
 
 
 
@@ -730,6 +822,132 @@ export async function getCandidateExaminationStatus(id:string){
             
             // const re=data.result as {baladiya:string}[];
             return data;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getCandidatPaymentStatus(id:string){
+
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getPaymentStatus/${id}`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        type k=candidatMin&{status?:"accepted"|"rejected",imageUrl:string,dateOfBirth:string}
+        if (res.ok){
+            let data=(await res.json()) as k|undefined
+
+            console.log(data);
+            
+            // const re=data.result as {baladiya:string}[];
+            return data;
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+type Flight={
+
+    id:number,
+    AireportLocatoin:string,
+    wilayaSelect: string,
+    VolStart: string,
+    VolEnd: string,
+    PlaceOfVol: string,
+    DirectionVol: string,
+    ListHotel: string,
+    ListAvailibleRoom: string,
+    ListMaxPosOfRoom: string
+}
+
+
+export async function getFlights(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GeTvOL`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
+        
+        if (res.ok){
+            let data=await res.json()
+            console.log(data);
+            
+            return data.message as Flight[];
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getWilayas(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/getWilayasName`);
+        
+        if (res.ok){
+            let data=await res.json()
+            
+            return (data.result as {wilaya:string}[]).map(e=>e.wilaya);
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+
+export async function getAireports(){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/AfficheAireport`);
+        
+        if (res.ok){
+            let data=await res.json()
+            
+            return (data.data as {aireport:string}[]).map(e=>e.aireport);
+        }else {
+            throw Error("Something went wrong")
+        }
+        
+    } catch (error) {
+        throw Error("Please try again later")
+    }
+}
+
+export async function getFlight(id:string){
+    const token=cookies().get("jwt")?.value;    
+
+    try {
+        let res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/GeTvOL/${id}`);
+        
+        if (res.ok){
+            let data=await res.json()
+            
+            return data.message as Flight|undefined;
         }else {
             throw Error("Something went wrong")
         }

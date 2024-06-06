@@ -47,13 +47,20 @@ export async function middleware(req:NextRequest){
         return NextResponse.redirect(new URL("/"+locale,req.url))
       }   
 
-      if (payload.role==="HOSPITAL" && pathname.startsWith("/dashboard")){
+      if (payload.role==="HOSPITAL" && (pathname.startsWith("/dashboard")||pathname.startsWith("/bank"))){
         return NextResponse.redirect(new URL("/"+locale+"/doctor",req.url))
+      }
+      if (payload.role==="BANK" && (pathname.startsWith("/dashboard")||pathname.startsWith("/doctor"))){
+        return NextResponse.redirect(new URL("/"+locale+"/bank",req.url))
       }
       
     }else if (payload){
       if (payload.role==="HOSPITAL"){
         return NextResponse.redirect(new URL("/"+locale+"/doctor",req.url))
+      }
+
+      if (payload.role==="BANK"){
+        return NextResponse.redirect(new URL("/"+locale+"/bank",req.url))
       }
       return NextResponse.redirect(new URL("/"+locale+"/dashboard",req.url))
     }

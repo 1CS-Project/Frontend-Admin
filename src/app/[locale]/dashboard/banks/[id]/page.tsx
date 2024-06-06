@@ -1,8 +1,6 @@
-import { getHospitalById, getToken } from '@/app/action';
-import Hospital from '@/components/dashboard/hospitals/hospital';
-import Hospital2 from '@/components/icons/hospital2'
+import { getBankById, getHospitalById, getToken } from '@/app/action';
+import Bank from '@/components/dashboard/banks/bank';
 import { HydrationBoundary, QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
-import { useLocale } from 'next-intl';
 import React from 'react'
 
 async function Page({params}:{params:{id:string}}) {
@@ -11,13 +9,13 @@ async function Page({params}:{params:{id:string}}) {
   const token=await getToken();
   
   await queryClient.prefetchQuery({
-    queryKey:["hospitals",params.id],
-    queryFn:()=>getHospitalById(params.id)
+    queryKey:["banks",params.id],
+    queryFn:()=>getBankById(params.id)
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Hospital/>
+      <Bank/>
     </HydrationBoundary>
 
   )
