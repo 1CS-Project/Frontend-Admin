@@ -38,7 +38,6 @@ function Wilayas({token}:props) {
     useEffect(()=>{
         setIsDirty(false)
     },[openedRow])
-    // console.log(data);
     const {mutate,isPending}=useMutation(({
         mutationFn:({d,wilaya}:{d:WilayaMin,wilaya:string})=>updateWilayaSend(token,d,wilaya),
         onSuccess:()=>{

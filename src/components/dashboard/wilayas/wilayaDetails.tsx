@@ -52,7 +52,6 @@ function WilayaDetails({token}:props) {
       }))
 
 
-    console.log(data);
     if (data){
         return ( 
             <div>

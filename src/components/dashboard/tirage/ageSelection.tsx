@@ -30,7 +30,6 @@ function AgeSelection({years,numberOfPlaces,baladya}:props) {
 
   function getAges(){
     const currentYear=new Date().getFullYear()
-    console.log(years);
     
     const dMinAge=currentYear-years!.maxYear
     const dMaxAge=currentYear-years!.minYear

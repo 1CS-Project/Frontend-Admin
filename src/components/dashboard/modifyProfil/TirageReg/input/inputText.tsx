@@ -5,7 +5,7 @@ import { tirageRegT } from "@/schema/zodSchemas";
 type props={
     register:UseFormRegister<tirageRegT>
     error?:string,
-    type?:"date"|"text"
+    type?:"date"|"text"|"datetime-local"
     label:string,
     placeholder?:string,
     field:Path<tirageRegT>,

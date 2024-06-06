@@ -83,7 +83,7 @@ function Tirage({user,data,numberOfplace,years}:props) {
 
       {
         selectedRandom?
-        <RandomSelection data={data}/>:<AgeSelection baladya={user.name} numberOfPlaces={numberOfplace} years={years}/>
+        <RandomSelection user={user} data={data}/>:<AgeSelection baladya={user.name} numberOfPlaces={numberOfplace} years={years}/>
       } 
 
     </div>

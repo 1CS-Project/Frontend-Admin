@@ -5,6 +5,7 @@ import { deleteCandidate } from "@/app/mutations";
 import { getQueryClient } from "@/app/providers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 
 type props={
@@ -16,7 +17,11 @@ type props={
 function Candidats({locale,token}:props) {
   const queryClient=getQueryClient()
 
-    const { data } = useQuery({ queryKey: ['candidats'], queryFn: ()=>getCandidatsByPlace() })
+
+  let searchParams=useSearchParams();
+  const name=searchParams.get("name") ;
+
+    const { data } = useQuery({ queryKey: name?["candidats",name]:["candidats"], queryFn: ()=>getCandidatsByPlace(name as string|undefined) })
 
     const {mutate}=useMutation({
       mutationFn:(id:string)=>deleteCandidate(id,token),
@@ -25,7 +30,6 @@ function Candidats({locale,token}:props) {
         queryClient.invalidateQueries({queryKey:['candidats']})     
       }
     })
-    console.log(data);
     
     
     
@@ -105,9 +109,7 @@ function Candidats({locale,token}:props) {
                     </button>
                   </Link>
                   <button 
-                  onClick={()=>{
-                    console.log("eee");
-                    
+                  onClick={()=>{                    
                     mutate(item.nationalIdNumber)
                   }}
                   type="button" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">

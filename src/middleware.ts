@@ -24,9 +24,13 @@ export async function middleware(req:NextRequest){
 
     let payload=await getUserData()    
     
+    console.log(payload);
+    
+
     if (payload&&Object.keys(payload).length===0){
       payload=undefined;
-  }
+    }
+
 
   
     let l=req.nextUrl.pathname.split("/");
@@ -36,15 +40,21 @@ export async function middleware(req:NextRequest){
     }    
     
     
-    
     if (!landings.includes(req.nextUrl.pathname)){
       let pathname=req.nextUrl.pathname.slice(3);
       
-      if (pathname.startsWith("/dashboard")&&!payload){      
+      if (!payload){      
         return NextResponse.redirect(new URL("/"+locale,req.url))
       }   
+
+      if (payload.role==="HOSPITAL" && pathname.startsWith("/dashboard")){
+        return NextResponse.redirect(new URL("/"+locale+"/doctor",req.url))
+      }
       
     }else if (payload){
+      if (payload.role==="HOSPITAL"){
+        return NextResponse.redirect(new URL("/"+locale+"/doctor",req.url))
+      }
       return NextResponse.redirect(new URL("/"+locale+"/dashboard",req.url))
     }
   
