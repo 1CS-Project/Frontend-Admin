@@ -7,7 +7,7 @@ type props={
     data:candidatMin[],
     user:{
       name:string,
-      role:"WIZARA"|"BALADIA"|"WILLAYA"
+      role:"WIZARA"|"BALADIA"|"WILAYA"|"BANK"| "HOSPITAL"
     },
 }
 

@@ -11,7 +11,7 @@ type props={
   token:string
   user:{
     name:string,
-    role:"WIZARA"|"BALADIA"|"WILLAYA"
+    role:"WIZARA"|"BALADIA"|"WILAYA"|"BANK"| "HOSPITAL"
   },
   data:candidatMin[],
   numberOfplace:number,

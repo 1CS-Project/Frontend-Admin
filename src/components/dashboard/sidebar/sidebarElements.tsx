@@ -16,11 +16,11 @@ type sideBar={
 
 
 export let wilayaElements:sideBar[]=[
-    {
-        name:"Home",
-        link:"",
-        icon:<Home/>
-    },
+    // {
+    //     name:"Home",
+    //     link:"",
+    //     icon:<Home/>
+    // },
     {
         name:"Candidat",
         link:"/candidat",
@@ -45,11 +45,11 @@ export let wilayaElements:sideBar[]=[
 ]
 
 export let communeElements=[
-    {
-        name:"Home",
-        link:"",
-        icon:<Home/>
-    },
+    // {
+    //     name:"Home",
+    //     link:"",
+    //     icon:<Home/>
+    // },
     {
         name:"Candidat",
         link:"/candidat",
@@ -83,11 +83,11 @@ export let adminElements:sideBar[]=[
         link:"/timer",
         icon:<Timer/>
     },
-    {
-        name:"Candidat",
-        link:"/candidat",
-        icon:<User/>
-    },
+    // {
+    //     name:"Candidat",
+    //     link:"/candidat",
+    //     icon:<User/>
+    // },
     {
         name:"Wilaya",
         link:"/wilayas",
