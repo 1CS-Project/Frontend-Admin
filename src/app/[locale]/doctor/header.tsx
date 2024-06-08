@@ -2,10 +2,22 @@
 
 import { logOut } from "@/app/action";
 import { getQueryClient } from "@/app/providers";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 function Header() {
     
   const queryClient=getQueryClient()
+
+
+  let searchParams=useSearchParams();
+  const urlName=searchParams.get("name") as string|undefined;
+
+  console.log(urlName);
+  
+  const [name,setName]=useState(urlName?urlName:"");
+
   
 
     return ( 
@@ -37,17 +49,20 @@ function Header() {
             </div>
             <input
               type="search"
+              onChange={(e)=>setName(e.currentTarget.value)}
               id="default-search"
               className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search ..."
               required
+              defaultValue={urlName}
             />
-            <button
+            <Link
+              href={"./doctor?name="+name}
               type="submit"
               className="text-white absolute end-2.5 bottom-2.5 bg-[#0A84E6] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Search
-            </button>
+            </Link>
           </div>
         </form>
         <div 

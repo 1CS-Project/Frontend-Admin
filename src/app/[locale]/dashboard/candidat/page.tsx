@@ -8,10 +8,13 @@ async function Page({ searchParams,}: { searchParams: { name: string|undefined }
   const queryClient = new QueryClient();
   const token=await getToken();
   
+  // if (searchParams.name){
   await queryClient.prefetchQuery({
-    queryKey:searchParams.name?["candidats",searchParams.name]:["candidats"],
+    queryKey:["candidats",searchParams.name],
     queryFn:()=>getCandidatsByPlace(searchParams.name)
   })   
+  // }
+
   
 
   return (

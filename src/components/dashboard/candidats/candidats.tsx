@@ -19,9 +19,10 @@ function Candidats({locale,token}:props) {
 
 
   let searchParams=useSearchParams();
-  const name=searchParams.get("name") ;
+  const name=searchParams.get("name") as string|undefined;
 
-    const { data } = useQuery({ queryKey: name?["candidats",name]:["candidats"], queryFn: ()=>getCandidatsByPlace(name as string|undefined) })
+    // const { data } = useQuery({ queryKey: name?["candidats",name]:["candidats"], queryFn: ()=>getCandidatsByPlace(name as string|undefined) })
+    const { data } = useQuery({ queryKey: ["candidats",name], queryFn: ()=>getCandidatsByPlace(name as string|undefined) })
 
     const {mutate}=useMutation({
       mutationFn:(id:string)=>deleteCandidate(id,token),
@@ -112,7 +113,7 @@ function Candidats({locale,token}:props) {
                   onClick={()=>{                    
                     mutate(item.nationalIdNumber)
                   }}
-                  type="button" className="flex justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
+                  type="button" disabled={item.mahremOfWho?true:false} className="flex disabled:bg-slate-500 justify-center items-center gap-1 bg-[#E64040] px-4 py-2 text-white font-medium rounded-lg">
                     <svg
                       width={18}
                       height={18}

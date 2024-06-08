@@ -46,7 +46,7 @@ function Flight() {
         <div>
           <h1 className='text-lg font-semibold underline'>Wilayat concerned with this flight</h1>
           {data.wilayaSelect.split(",").map(e=>(
-            <div className='flex items-center mt-4 text-lg font-medium'>
+            <div key={e} className='flex items-center mt-4 text-lg font-medium'>
               <CheckBox/>
               <h1>{e}</h1>
             </div>
@@ -71,7 +71,7 @@ function Flight() {
         <h1 className='mb-2 text-xl'><span className="font-semibold underline">The hotels related of this flight :</span></h1>
             <div className='p-4 space-y-4'>
                 {data.ListHotel.split(",").map((e,i)=>(
-                <div>
+                <div key={e}>
                     <h1 className='mb-2 text-xl'>- {e}</h1>
                     <div className='px-4'>
                         <h1 className='mb-2 text-xl'><span className="font-semibold underline">Avalaible rooms : </span>{data.ListAvailibleRoom.split(",")[i]}</h1>
