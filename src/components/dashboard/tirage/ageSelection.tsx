@@ -59,12 +59,12 @@ function AgeSelection({years,numberOfPlaces,baladya}:props) {
 
     })
     
-    // socket?.on("fin",(e)=>{
-    //   console.log(e);
-    //   setDone(true);
-    //   socket.close()
+    socket?.on("fin",(e)=>{
+      console.log("fin");
+      // setDone(true);
+      // socket.close()
       
-    // })
+    })
 
     return ()=>{
       socket.close()
@@ -111,6 +111,7 @@ function AgeSelection({years,numberOfPlaces,baladya}:props) {
               Start
             </button>
 
+              <h1>Winners ({winners.length}):</h1>
             <div className='bg-[#FFFBF1] p-4 rounded-md mt-4'>
                  {winners.map(e=>(
                    <h1 key={e}>{e}</h1>
