@@ -21,11 +21,11 @@ export let wilayaElements:sideBar[]=[
     //     link:"",
     //     icon:<Home/>
     // },
-    {
-        name:"Candidat",
-        link:"/candidat",
-        icon:<User/>
-    },
+    // {
+    //     name:"Candidat",
+    //     link:"/candidat",
+    //     icon:<User/>
+    // },
     {
         name:"Communes",
         link:"/communes",

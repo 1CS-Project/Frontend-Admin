@@ -572,6 +572,7 @@ export async function getNumberOfPlacesByInterval(minAge:string,maxAge:string){
             }
         });
         
+        
         if (res.ok){
             let data=await res.json();
             return data.count as number;

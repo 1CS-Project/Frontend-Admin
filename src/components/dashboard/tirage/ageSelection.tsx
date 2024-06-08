@@ -53,6 +53,11 @@ function AgeSelection({years,numberOfPlaces,baladya}:props) {
       
        setWinners((el)=>[...el,e])     
     })
+
+    socket.on("space",(e)=>{
+      setWinners((el)=>[...el,"-----------------------"])     
+
+    })
     
     // socket?.on("fin",(e)=>{
     //   console.log(e);
