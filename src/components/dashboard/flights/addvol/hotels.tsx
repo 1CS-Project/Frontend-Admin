@@ -84,7 +84,7 @@ console.log(data);
         
         <div className="mx-auto  w-full">
             {hotels.map((e)=>(
-                <div>
+                <div key={e.name}>
                     {e.name+","+e.rooms+","+e.max_pos}
                 </div>
             ))}

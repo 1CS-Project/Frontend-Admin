@@ -5,13 +5,18 @@ import { getHospitalCandidats } from "@/app/action";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 
 
 
 function HospitalCandidats() {
 
-  const { data } = useQuery({ queryKey: ['hos_candidats'], queryFn: ()=>getHospitalCandidats() })
+  let searchParams=useSearchParams();
+  const name=searchParams.get("name") as string|undefined;
+
+  const { data } = useQuery({ queryKey: ['hos_candidats',name], queryFn: ()=>getHospitalCandidats(name) })
+
 
 
     return ( 
@@ -36,7 +41,7 @@ function HospitalCandidats() {
               <tbody>
                 {/* Map over the dataList and render each item */}
                 {data?.map((item, index) => (
-                  <tr key={item.nationalIdNumber} className={"bg-white border-b dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600 "+(item.status?item.status==="accepted"?"bg-green-300/45 hover:bg-green-300/45":"bg-red-300/45 hover:bg-red-300/45":"hover:bg-gray-100")}>
+                  <tr key={item.nationalIdNumber} className={" border-b dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600 "+(item.status?item.status==="accepted"?"bg-green-300/45 hover:bg-green-300/45":"bg-red-300/45 hover:bg-red-300/45":"hover:bg-gray-100")}>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"

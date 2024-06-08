@@ -184,7 +184,8 @@ export type candidatMin={
     firstname: string,
     lastname: string,
     nationalIdNumber: string,
-        uncount?:number
+    uncount?:number,
+    mahremOfWho?:string
     }
     
     export async function getCandidatsByPlace(name?:string){
@@ -803,6 +804,17 @@ export async function getCommunesList(){
 }
 
 
+type ExaminateCandidat={
+        nationalIdNumber: string,
+        diseases:{name:string,startDate:string,medication:string[]}[] 
+        status: "accepted"|"rejected",
+        dateOfBirth: string,
+        name: string,
+        imageUrl:string,
+        note:string
+}
+
+
 export async function getCandidateExaminationStatus(id:string){
 
     const token=cookies().get("jwt")?.value;    
@@ -814,9 +826,9 @@ export async function getCandidateExaminationStatus(id:string){
             }
         });
         
-        type k=candidatMin&{status?:"accepted"|"rejected",imageUrl:string,dateOfBirth:string}
+        // type k=candidatMin&{status?:"accepted"|"rejected",imageUrl:string,dateOfBirth:string}
         if (res.ok){
-            let data=(await res.json()) as k|undefined
+            let data=(await res.json()) as ExaminateCandidat|undefined
 
             console.log(data);
             

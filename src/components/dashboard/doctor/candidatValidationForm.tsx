@@ -193,7 +193,7 @@ function CandidatValidation({token}:props) {
         </button>
 
           </form>
-        <div className='flex justify-between items-center w-full'>
+        <div className='flex gap-x-2 items-center w-full flex-wrap'>
           {confirmData.map((data, index) => (
             <div key={index} className="mt-6 p-4 bg-white border border-gray-300 rounded-md shadow-sm  ">
               <h2 className="text-2xl font-bold mb-4 underline">{data.disease || 'None'}</h2>

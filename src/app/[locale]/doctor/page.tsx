@@ -7,15 +7,19 @@ import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query
 import { getHospitalCandidats, getToken } from '@/app/action';
 import HospitalCandidats from '@/components/dashboard/doctor/hospitalCandidats';
 
-async function Page() {
+async function Page({ searchParams}: { searchParams: { name: string|undefined }}) {
+
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const locale = useLocale();
   const queryClient = new QueryClient();
   const token=await getToken();
   
+
+
   await queryClient.prefetchQuery({
-    queryKey:["hos_candidats"],
-    queryFn:()=>getHospitalCandidats()
+    queryKey:["hos_candidats",searchParams.name],
+    queryFn:()=>getHospitalCandidats(searchParams.name)
   })     
 
 
